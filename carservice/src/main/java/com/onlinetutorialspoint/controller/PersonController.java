@@ -42,7 +42,7 @@ public class PersonController {
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
-		return "Person succesfully saved!";
+		return "Person Saved succesfully saved!";
 	}
 	
 	@RequestMapping(value = "/allPersons")
