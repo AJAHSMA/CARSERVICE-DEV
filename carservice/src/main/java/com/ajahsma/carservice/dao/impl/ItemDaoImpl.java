@@ -8,7 +8,7 @@ import com.ajahsma.carservice.dao.ItemDao;
  * @author SHARAN A
  */
 
-@Repository("myItemDao")
+@Repository
 public class ItemDaoImpl extends DefaultDaoImpl implements ItemDao {
 
 }

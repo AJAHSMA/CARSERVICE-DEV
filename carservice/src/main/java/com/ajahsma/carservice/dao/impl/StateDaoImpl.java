@@ -8,7 +8,7 @@ import com.ajahsma.carservice.dao.StateDao;
  * @author SHARAN A
  */
 
-@Repository("myStateDao")
+@Repository
 public class StateDaoImpl extends DefaultDaoImpl implements StateDao {
 
 }

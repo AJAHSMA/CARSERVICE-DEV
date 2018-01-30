@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.State;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.StateManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.manager.StateManager;
+import com.ajahsma.carservice.model.StateTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("stateController")
-@RequestMapping(value = "/state")
+@Controller
 public class StateController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class StateController extends AbstractController {
 		return this.stateManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteState", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			State state = (State) getDefaultManager().getDomain(State.class, id);
+			StateTO state = (StateTO) getDefaultManager().getDomain(StateTO.class, id);
 			getDefaultManager().deleteDomain(state);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class StateController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateState", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody State state) {
+	public String update(@RequestBody StateTO state) {
 		try {
 			getDefaultManager().updateDomain(state);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class StateController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveState", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody State state) {
+	public String save(@RequestBody StateTO state) {
 		getDefaultManager().saveDomain(state);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllStates", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<State> states) {
+	public String saveAll(@RequestBody List<StateTO> states) {
 		if (!CollectionUtils.isEmpty(states)) {
-			for (State state : states) {
+			for (StateTO state : states) {
 				getDefaultManager().saveDomain(state);
 			}
 		}
@@ -74,9 +73,9 @@ public class StateController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllStates")
 	@ResponseBody
-	public List<State> getAllStates() {
-		return (List) getDefaultManager().getAllDomain(State.class);
+	public List<StateTO> getAllStates() {
+		return (List) getDefaultManager().getAllDomain(StateTO.class);
 	}
 }

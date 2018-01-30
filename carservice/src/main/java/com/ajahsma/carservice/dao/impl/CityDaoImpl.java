@@ -8,7 +8,7 @@ import com.ajahsma.carservice.dao.CityDao;
  * @author SHARAN A
  */
 
-@Repository("myCityDao")
+@Repository
 public class CityDaoImpl extends DefaultDaoImpl implements CityDao {
 
 }

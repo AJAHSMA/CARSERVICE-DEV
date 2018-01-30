@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.Employee;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.EmployeeManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.manager.EmployeeManager;
+import com.ajahsma.carservice.model.EmployeeTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("employeeController")
-@RequestMapping(value = "/employee")
+@Controller
 public class EmployeeController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class EmployeeController extends AbstractController {
 		return this.employeeManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			Employee employee = (Employee) getDefaultManager().getDomain(Employee.class, id);
+			EmployeeTO employee = (EmployeeTO) getDefaultManager().getDomain(EmployeeTO.class, id);
 			getDefaultManager().deleteDomain(employee);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class EmployeeController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateEmployee", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody Employee employee) {
+	public String update(@RequestBody EmployeeTO employee) {
 		try {
 			getDefaultManager().updateDomain(employee);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class EmployeeController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody Employee employee) {
+	public String save(@RequestBody EmployeeTO employee) {
 		getDefaultManager().saveDomain(employee);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllEmployees", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<Employee> employees) {
+	public String saveAll(@RequestBody List<EmployeeTO> employees) {
 		if (!CollectionUtils.isEmpty(employees)) {
-			for (Employee employee : employees) {
+			for (EmployeeTO employee : employees) {
 				getDefaultManager().saveDomain(employee);
 			}
 		}
@@ -74,9 +73,9 @@ public class EmployeeController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllEmployees")
 	@ResponseBody
-	public List<Employee> getAllEmployees() {
-		return (List) getDefaultManager().getAllDomain(Employee.class);
+	public List<EmployeeTO> getAllEmployees() {
+		return (List) getDefaultManager().getAllDomain(EmployeeTO.class);
 	}
 }

@@ -8,7 +8,7 @@ import com.ajahsma.carservice.dao.CountryDao;
  * @author SHARAN A
  */
 
-@Repository("myCountryDao")
+@Repository
 public class CountryDaoImpl extends DefaultDaoImpl implements CountryDao {
 
 }

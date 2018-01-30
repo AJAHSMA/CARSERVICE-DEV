@@ -2,39 +2,38 @@ package com.ajahsma.carservice.controller;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.CheckNomenclature;
-import com.ajahsma.carservice.model.Customer;
-import com.ajahsma.carservice.model.Inventory;
-import com.ajahsma.carservice.model.Item;
-import com.ajahsma.carservice.model.Nomenclature;
-import com.ajahsma.carservice.model.PrimaryApprovelAndEstimation;
-import com.ajahsma.carservice.model.Vehicle;
-import com.ajahsma.carservice.model.VehicleCustomerRegistration;
-import com.ajahsma.carservice.service.ApplicationUserManager;
-import com.ajahsma.carservice.service.CityManager;
-import com.ajahsma.carservice.service.CustomerManager;
-import com.ajahsma.carservice.service.DesignationManager;
-import com.ajahsma.carservice.service.EmployeeManager;
-import com.ajahsma.carservice.service.ItemManager;
-import com.ajahsma.carservice.service.ModelManager;
-import com.ajahsma.carservice.service.NomenclatureManager;
-import com.ajahsma.carservice.service.VehicleCustomerRegistrationManager;
-import com.ajahsma.carservice.service.VehicleManager;
+import com.ajahsma.carservice.manager.ApplicationUserManager;
+import com.ajahsma.carservice.manager.CarModelManager;
+import com.ajahsma.carservice.manager.CityManager;
+import com.ajahsma.carservice.manager.CustomerManager;
+import com.ajahsma.carservice.manager.DesignationManager;
+import com.ajahsma.carservice.manager.EmployeeManager;
+import com.ajahsma.carservice.manager.ItemManager;
+import com.ajahsma.carservice.manager.NomenclatureManager;
+import com.ajahsma.carservice.manager.VehicleCustomerRegistrationManager;
+import com.ajahsma.carservice.manager.VehicleManager;
+import com.ajahsma.carservice.model.CheckNomenclatureTO;
+import com.ajahsma.carservice.model.CustomerTO;
+import com.ajahsma.carservice.model.InventoryTO;
+import com.ajahsma.carservice.model.ItemTO;
+import com.ajahsma.carservice.model.NomenclatureTO;
+import com.ajahsma.carservice.model.PrimaryApprovelAndEstimationTO;
+import com.ajahsma.carservice.model.VehicleCustomerRegistrationTO;
+import com.ajahsma.carservice.model.VehicleTO;
+import com.ajahsma.carservice.utils.CarServiceUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("utilsController")
-@RequestMapping(value = "/utils")
+@Controller
 public class UtilsController extends AbstractController {
 
 	@Autowired
@@ -56,7 +55,7 @@ public class UtilsController extends AbstractController {
 	ApplicationUserManager applicationUserManager;
 
 	@Autowired
-	ModelManager modelUserManager;
+	CarModelManager modelUserManager;
 
 	@Autowired
 	CityManager cityManager;
@@ -67,86 +66,70 @@ public class UtilsController extends AbstractController {
 	@Autowired
 	DesignationManager designationManager;
 
-	@RequestMapping(value = "/jsonToObject")
+	@RequestMapping(value = "/objectToJson")
 	@ResponseBody
-	public String getJsonToObject() throws Exception {
+	public String getObjectToJson() throws Exception {
 
 		// -------------------------------------------------
 
-		Customer customer = (Customer) customerManager.getDomain(Customer.class, new Long(1));
-		Customer customer1 = (Customer) customerManager.getDomain(Customer.class, new Long(2));
-		Vehicle vehicle = (Vehicle) vehicleManager.getDomain(Vehicle.class, new Long(1));
-		Vehicle vehicle1 = (Vehicle) vehicleManager.getDomain(Vehicle.class, new Long(2));
-		Item item = (Item) itemManager.getDomain(Item.class, new Long(1));
-		Item item1 = (Item) itemManager.getDomain(Item.class, new Long(2));
-		Item item2 = (Item) itemManager.getDomain(Item.class, new Long(3));
-		Item item3 = (Item) itemManager.getDomain(Item.class, new Long(4));
-		
-		Nomenclature nomenclature = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(1));
-		Nomenclature nomenclature1 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(2));
-		Nomenclature nomenclature2 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(3));
-		Nomenclature nomenclature3 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(4));
-		Nomenclature nomenclature4 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(5));
-		Nomenclature nomenclature5 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(6));
-		Nomenclature nomenclature6 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(7));
-		Nomenclature nomenclature7 = (Nomenclature) nomenclatureManager.getDomain(Nomenclature.class, new Long(8));
-		
-		/*Set<Item> items = new HashSet<Item>();
-		items.add(item);
-		items.add(item1);
-		items.add(item2);
-		items.add(item3);*/
-		
-//		PrimaryApprovelAndEstimation(String description, BigDecimal material, BigDecimal labour, BigDecimal total, Inventory inventory) {
-		PrimaryApprovelAndEstimation primaryApprovelAndEstimation = new PrimaryApprovelAndEstimation("desc1", new BigDecimal("1000"), new BigDecimal("200"), new BigDecimal("1200"), null); 
-		PrimaryApprovelAndEstimation primaryApprovelAndEstimation1 = new PrimaryApprovelAndEstimation("desc2", new BigDecimal("1200"), new BigDecimal("200"), new BigDecimal("1400"), null); 
-		PrimaryApprovelAndEstimation primaryApprovelAndEstimation2 = new PrimaryApprovelAndEstimation("desc3", new BigDecimal("1400"), new BigDecimal("200"), new BigDecimal("1600"), null);
-		
-		
-		Inventory inventory = new Inventory(new BigDecimal(1200), "30", "CEATE", "0001", "CE", "1001");
-		
+		CustomerTO customer = (CustomerTO) customerManager.getDomain(CustomerTO.class, new Long(1));
+		CustomerTO customer1 = (CustomerTO) customerManager.getDomain(CustomerTO.class, new Long(2));
+		VehicleTO vehicle = (VehicleTO) vehicleManager.getDomain(VehicleTO.class, new Long(1));
+		VehicleTO vehicle1 = (VehicleTO) vehicleManager.getDomain(VehicleTO.class, new Long(2));
+		ItemTO item = (ItemTO) itemManager.getDomain(ItemTO.class, new Long(1));
+		ItemTO item1 = (ItemTO) itemManager.getDomain(ItemTO.class, new Long(2));
+		ItemTO item2 = (ItemTO) itemManager.getDomain(ItemTO.class, new Long(3));
+		ItemTO item3 = (ItemTO) itemManager.getDomain(ItemTO.class, new Long(4));
+
+		NomenclatureTO nomenclature = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(1));
+		NomenclatureTO nomenclature1 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(2));
+		NomenclatureTO nomenclature2 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(3));
+		NomenclatureTO nomenclature3 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(4));
+		NomenclatureTO nomenclature4 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(5));
+		NomenclatureTO nomenclature5 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(6));
+		NomenclatureTO nomenclature6 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(7));
+		NomenclatureTO nomenclature7 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(8));
+
+		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation = new PrimaryApprovelAndEstimationTO("desc1", new BigDecimal("1000"), new BigDecimal("200"), new BigDecimal("1200"), null);
+		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation1 = new PrimaryApprovelAndEstimationTO("desc2", new BigDecimal("1200"), new BigDecimal("200"), new BigDecimal("1400"), null);
+		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation2 = new PrimaryApprovelAndEstimationTO("desc3", new BigDecimal("1400"), new BigDecimal("200"), new BigDecimal("1600"), null);
+
+		InventoryTO inventory = new InventoryTO(new BigDecimal(1200), "30", "CEATE", "0001", "CE", "1001");
+
 		inventory.addItem(item);
 		inventory.addItem(item1);
 		inventory.addItem(item2);
 		inventory.addItem(item3);
-		
+
 		inventory.addPrimaryApprovelAndEstimation(primaryApprovelAndEstimation);
 		inventory.addPrimaryApprovelAndEstimation(primaryApprovelAndEstimation1);
 		inventory.addPrimaryApprovelAndEstimation(primaryApprovelAndEstimation2);
-		// VehicleCustomerRegistration(Long distanceReading, String jobCardNo, Calendar deliveryDateTime, Calendar currentDatetime, Attachment customerSignature, Vehicle vehicle, Customer customer, Inventory inventory)
 
-		
-		CheckNomenclature checkNomenclature = new CheckNomenclature(nomenclature, true, "Remarks 1");
-		CheckNomenclature checkNomenclature1 = new CheckNomenclature(nomenclature1, true, "Remarks 2");
-		CheckNomenclature checkNomenclature2 = new CheckNomenclature(nomenclature4, true, "Remarks 3");
-		CheckNomenclature checkNomenclature3 = new CheckNomenclature(nomenclature7, true, "Remarks 4");
-		CheckNomenclature checkNomenclature4 = new CheckNomenclature(nomenclature3, true, "Remarks 5");
-		CheckNomenclature checkNomenclature5 = new CheckNomenclature(nomenclature6, true, "Remarks 6");
-		
+		CheckNomenclatureTO checkNomenclature = new CheckNomenclatureTO(nomenclature, true, "Remarks 1");
+		CheckNomenclatureTO checkNomenclature1 = new CheckNomenclatureTO(nomenclature1, true, "Remarks 2");
+		CheckNomenclatureTO checkNomenclature2 = new CheckNomenclatureTO(nomenclature4, true, "Remarks 3");
+		CheckNomenclatureTO checkNomenclature3 = new CheckNomenclatureTO(nomenclature7, true, "Remarks 4");
+		CheckNomenclatureTO checkNomenclature4 = new CheckNomenclatureTO(nomenclature3, true, "Remarks 5");
+		CheckNomenclatureTO checkNomenclature5 = new CheckNomenclatureTO(nomenclature6, true, "Remarks 6");
+
 		inventory.addCheckNomenclature(checkNomenclature);
 		inventory.addCheckNomenclature(checkNomenclature1);
 		inventory.addCheckNomenclature(checkNomenclature2);
 		inventory.addCheckNomenclature(checkNomenclature3);
 		inventory.addCheckNomenclature(checkNomenclature4);
 		inventory.addCheckNomenclature(checkNomenclature5);
-		
-//		nomenclatureManager
-		
-		VehicleCustomerRegistration vCR = new VehicleCustomerRegistration(new Long(1111), "0001", Calendar.getInstance(), Calendar.getInstance(), vehicle, customer, inventory);
-		
-		vehicleCustomerRegistrationManager.saveDomain(vCR);
-		
-		
-		nomenclatureManager.deleteDomain(nomenclature5);
-		
-		// ----------------------------------------------------
+
+		VehicleCustomerRegistrationTO vCR = new VehicleCustomerRegistrationTO(new Long(1111), "0001", Calendar.getInstance(), Calendar.getInstance(), vehicle, customer, inventory);
+
+//		vehicleCustomerRegistrationManager.saveDomain(vCR);
+
 		String jsonString = "";
 
-		/*
-		 * try { jsonString = CarServiceUtils.convertObjectToJson(state);
-		 * System.out.println(jsonString); } catch (JsonProcessingException e) {
-		 * e.printStackTrace(); }
-		 */
+		try {
+			jsonString = CarServiceUtils.convertObjectToJson(vCR);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 
 		return jsonString;
 	}

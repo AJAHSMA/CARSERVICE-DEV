@@ -6,23 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.Vehicle;
-import com.ajahsma.carservice.service.VehicleManager;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.VehicleManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.manager.VehicleManager;
+import com.ajahsma.carservice.model.VehicleTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("vehicleController")
-@RequestMapping(value = "/vehicle")
+@Controller
 public class VehicleController extends AbstractController {
 
 	@Autowired
@@ -33,11 +31,11 @@ public class VehicleController extends AbstractController {
 		return this.vehicleManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteVehicle", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			Vehicle vehicle = (Vehicle) getDefaultManager().getDomain(Vehicle.class, id);
+			VehicleTO vehicle = (VehicleTO) getDefaultManager().getDomain(VehicleTO.class, id);
 			getDefaultManager().deleteDomain(vehicle);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -45,9 +43,9 @@ public class VehicleController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateVehicle", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody Vehicle vehicle) {
+	public String update(@RequestBody VehicleTO vehicle) {
 		try {
 			getDefaultManager().updateDomain(vehicle);
 		} catch (Exception ex) {
@@ -56,18 +54,18 @@ public class VehicleController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody Vehicle vehicle) {
+	public String save(@RequestBody VehicleTO vehicle) {
 		getDefaultManager().saveDomain(vehicle);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllVehicles", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<Vehicle> vehicles) {
+	public String saveAll(@RequestBody List<VehicleTO> vehicles) {
 		if (!CollectionUtils.isEmpty(vehicles)) {
-			for (Vehicle vehicle : vehicles) {
+			for (VehicleTO vehicle : vehicles) {
 				getDefaultManager().saveDomain(vehicle);
 			}
 		}
@@ -75,9 +73,9 @@ public class VehicleController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllVehicles")
 	@ResponseBody
-	public List<Vehicle> getAllVehicles() {
-		return (List) getDefaultManager().getAllDomain(Vehicle.class);
+	public List<VehicleTO> getAllVehicles() {
+		return (List) getDefaultManager().getAllDomain(VehicleTO.class);
 	}
 }

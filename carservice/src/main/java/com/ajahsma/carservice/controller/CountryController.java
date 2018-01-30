@@ -6,23 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.Country;
-import com.ajahsma.carservice.service.CountryManager;
-import com.ajahsma.carservice.service.DefaultManager;
+import com.ajahsma.carservice.manager.CountryManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.model.CountryTO;
 
 /**
  * @author SHARAN A
  */
 
 @Controller("countryController")
-@RequestMapping(value = "/country")
 public class CountryController extends AbstractController {
 
 	@Autowired
@@ -33,11 +31,11 @@ public class CountryController extends AbstractController {
 		return this.countryManager;
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteCountry", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true) long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			Country country = (Country) getDefaultManager().getDomain(Country.class, id);
+			CountryTO country = (CountryTO) getDefaultManager().getDomain(CountryTO.class, id);
 			getDefaultManager().deleteDomain(country);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -47,7 +45,7 @@ public class CountryController extends AbstractController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody Country country) {
+	public String update(@RequestBody CountryTO country) {
 		try {
 			getDefaultManager().updateDomain(country);
 		} catch (Exception ex) {
@@ -58,16 +56,16 @@ public class CountryController extends AbstractController {
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody Country country) {
+	public String save(@RequestBody CountryTO country) {
 		getDefaultManager().saveDomain(country);
 		return "Data succesfully saved!";
 	}
 
 	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<Country> countrys) {
+	public String saveAll(@RequestBody List<CountryTO> countrys) {
 		if (!CollectionUtils.isEmpty(countrys)) {
-			for (Country country : countrys) {
+			for (CountryTO country : countrys) {
 				getDefaultManager().saveDomain(country);
 			}
 		}
@@ -77,7 +75,7 @@ public class CountryController extends AbstractController {
 
 	@RequestMapping(value = "/getAll")
 	@ResponseBody
-	public List<Country> getAllCountries() {
-		return (List) getDefaultManager().getAllDomain(Country.class);
+	public List<CountryTO> getAllCountries() {
+		return (List) getDefaultManager().getAllDomain(CountryTO.class);
 	}
 }

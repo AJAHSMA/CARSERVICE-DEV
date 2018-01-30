@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.Item;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.ItemManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.manager.ItemManager;
+import com.ajahsma.carservice.model.ItemTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("itemController")
-@RequestMapping(value = "/item")
+@Controller
 public class ItemController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class ItemController extends AbstractController {
 		return this.itemManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteItem", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			Item item = (Item) getDefaultManager().getDomain(Item.class, id);
+			ItemTO item = (ItemTO) getDefaultManager().getDomain(ItemTO.class, id);
 			getDefaultManager().deleteDomain(item);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class ItemController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateItem", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody Item item) {
+	public String update(@RequestBody ItemTO item) {
 		try {
 			getDefaultManager().updateDomain(item);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class ItemController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveItem", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody Item item) {
+	public String save(@RequestBody ItemTO item) {
 		getDefaultManager().saveDomain(item);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllItems", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<Item> items) {
+	public String saveAll(@RequestBody List<ItemTO> items) {
 		if (!CollectionUtils.isEmpty(items)) {
-			for (Item item : items) {
+			for (ItemTO item : items) {
 				getDefaultManager().saveDomain(item);
 			}
 		}
@@ -74,9 +73,9 @@ public class ItemController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllItems")
 	@ResponseBody
-	public List<Item> getAllItems() {
-		return (List) getDefaultManager().getAllDomain(Item.class);
+	public List<ItemTO> getAllItems() {
+		return (List) getDefaultManager().getAllDomain(ItemTO.class);
 	}
 }

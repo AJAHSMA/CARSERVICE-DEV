@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.Nomenclature;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.NomenclatureManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.manager.NomenclatureManager;
+import com.ajahsma.carservice.model.NomenclatureTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("nomenclatureController")
-@RequestMapping(value = "/nomenclature")
+@Controller
 public class NomenclatureController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class NomenclatureController extends AbstractController {
 		return this.nomenclatureManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteNomenclature", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			Nomenclature nomenclature = (Nomenclature) getDefaultManager().getDomain(Nomenclature.class, id);
+			NomenclatureTO nomenclature = (NomenclatureTO) getDefaultManager().getDomain(NomenclatureTO.class, id);
 			getDefaultManager().deleteDomain(nomenclature);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class NomenclatureController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateNomenclature", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody Nomenclature nomenclature) {
+	public String update(@RequestBody NomenclatureTO nomenclature) {
 		try {
 			getDefaultManager().updateDomain(nomenclature);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class NomenclatureController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveNomenclature", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody Nomenclature nomenclature) {
+	public String save(@RequestBody NomenclatureTO nomenclature) {
 		getDefaultManager().saveDomain(nomenclature);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllNomenclatures", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<Nomenclature> nomenclatures) {
+	public String saveAll(@RequestBody List<NomenclatureTO> nomenclatures) {
 		if (!CollectionUtils.isEmpty(nomenclatures)) {
-			for (Nomenclature nomenclature : nomenclatures) {
+			for (NomenclatureTO nomenclature : nomenclatures) {
 				getDefaultManager().saveDomain(nomenclature);
 			}
 		}
@@ -74,9 +73,9 @@ public class NomenclatureController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllNomenclatures")
 	@ResponseBody
-	public List<Nomenclature> getAllNomenclatures() {
-		return (List) getDefaultManager().getAllDomain(Nomenclature.class);
+	public List<NomenclatureTO> getAllNomenclatures() {
+		return (List) getDefaultManager().getAllDomain(NomenclatureTO.class);
 	}
 }

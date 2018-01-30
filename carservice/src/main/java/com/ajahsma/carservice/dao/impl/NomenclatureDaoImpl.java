@@ -8,7 +8,7 @@ import com.ajahsma.carservice.dao.NomenclatureDao;
  * @author SHARAN A
  */
 
-@Repository("myNomenclatureDao")
+@Repository
 public class NomenclatureDaoImpl extends DefaultDaoImpl implements NomenclatureDao {
 
 }

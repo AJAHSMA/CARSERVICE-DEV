@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.ApplicationUser;
-import com.ajahsma.carservice.service.ApplicationUserManager;
-import com.ajahsma.carservice.service.DefaultManager;
+import com.ajahsma.carservice.manager.ApplicationUserManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.model.ApplicationUserTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("applicationUserController")
-@RequestMapping(value = "/applicationUser")
+@Controller
 public class ApplicationUserController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class ApplicationUserController extends AbstractController {
 		return this.applicationUserManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteAapplicationUser", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			ApplicationUser applicationUser = (ApplicationUser) getDefaultManager().getDomain(ApplicationUser.class, id);
+			ApplicationUserTO applicationUser = (ApplicationUserTO) getDefaultManager().getDomain(ApplicationUserTO.class, id);
 			getDefaultManager().deleteDomain(applicationUser);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class ApplicationUserController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateAapplicationUser", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody ApplicationUser applicationUser) {
+	public String update(@RequestBody ApplicationUserTO applicationUser) {
 		try {
 			getDefaultManager().updateDomain(applicationUser);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class ApplicationUserController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAapplicationUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody ApplicationUser applicationUser) {
+	public String save(@RequestBody ApplicationUserTO applicationUser) {
 		getDefaultManager().saveDomain(applicationUser);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllAapplicationUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<ApplicationUser> applicationUsers) {
+	public String saveAll(@RequestBody List<ApplicationUserTO> applicationUsers) {
 		if (!CollectionUtils.isEmpty(applicationUsers)) {
-			for (ApplicationUser applicationUser : applicationUsers) {
+			for (ApplicationUserTO applicationUser : applicationUsers) {
 				getDefaultManager().saveDomain(applicationUser);
 			}
 		}
@@ -74,9 +73,9 @@ public class ApplicationUserController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllAapplicationUsers")
 	@ResponseBody
-	public List<ApplicationUser> getAllApplicationUsers() {
-		return (List) getDefaultManager().getAllDomain(ApplicationUser.class);
+	public List<ApplicationUserTO> getAllApplicationUsers() {
+		return (List) getDefaultManager().getAllDomain(ApplicationUserTO.class);
 	}
 }

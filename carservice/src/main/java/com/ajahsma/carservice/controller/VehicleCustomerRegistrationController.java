@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.VehicleCustomerRegistration;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.VehicleCustomerRegistrationManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.manager.VehicleCustomerRegistrationManager;
+import com.ajahsma.carservice.model.VehicleCustomerRegistrationTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("vehicleCustomerRegistrationController")
-@RequestMapping(value = "/vehicleCustomerRegistration")
+@Controller
 public class VehicleCustomerRegistrationController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 		return this.vehicleCustomerRegistrationManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteVehicleCustomerRegistration", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			VehicleCustomerRegistration vehicleCustomerRegistration = (VehicleCustomerRegistration) getDefaultManager().getDomain(VehicleCustomerRegistration.class, id);
+			VehicleCustomerRegistrationTO vehicleCustomerRegistration = (VehicleCustomerRegistrationTO) getDefaultManager().getDomain(VehicleCustomerRegistrationTO.class, id);
 			getDefaultManager().deleteDomain(vehicleCustomerRegistration);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateVehicleCustomerRegistration", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody VehicleCustomerRegistration vehicleCustomerRegistration) {
+	public String update(@RequestBody VehicleCustomerRegistrationTO vehicleCustomerRegistration) {
 		try {
 			getDefaultManager().updateDomain(vehicleCustomerRegistration);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveVehicleCustomerRegistration", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody VehicleCustomerRegistration vehicleCustomerRegistration) {
+	public String save(@RequestBody VehicleCustomerRegistrationTO vehicleCustomerRegistration) {
 		getDefaultManager().saveDomain(vehicleCustomerRegistration);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllVehicleCustomerRegistrations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<VehicleCustomerRegistration> vehicleCustomerRegistrations) {
+	public String saveAll(@RequestBody List<VehicleCustomerRegistrationTO> vehicleCustomerRegistrations) {
 		if (!CollectionUtils.isEmpty(vehicleCustomerRegistrations)) {
-			for (VehicleCustomerRegistration vehicleCustomerRegistration : vehicleCustomerRegistrations) {
+			for (VehicleCustomerRegistrationTO vehicleCustomerRegistration : vehicleCustomerRegistrations) {
 				getDefaultManager().saveDomain(vehicleCustomerRegistration);
 			}
 		}
@@ -74,9 +73,9 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllVehicleCustomerRegistrations")
 	@ResponseBody
-	public List<VehicleCustomerRegistration> getAllVehicleCustomerRegistrations() {
-		return (List) getDefaultManager().getAllDomain(VehicleCustomerRegistration.class);
+	public List<VehicleCustomerRegistrationTO> getAllVehicleCustomerRegistrations() {
+		return (List) getDefaultManager().getAllDomain(VehicleCustomerRegistrationTO.class);
 	}
 }

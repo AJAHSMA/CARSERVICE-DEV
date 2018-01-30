@@ -6,24 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.City;
-import com.ajahsma.carservice.service.CityManager;
-import com.ajahsma.carservice.service.DefaultManager;
-import com.ajahsma.carservice.service.CityManager;
+import com.ajahsma.carservice.manager.CityManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.model.CityTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("cityController")
-@RequestMapping(value = "/city")
+@Controller
 public class CityController extends AbstractController {
 
 	@Autowired
@@ -34,11 +31,11 @@ public class CityController extends AbstractController {
 		return this.cityManager;
 	}
 	
-	@RequestMapping(value = "/delete", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteCity", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true) long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			City city = (City) getDefaultManager().getDomain(City.class, id);
+			CityTO city = (CityTO) getDefaultManager().getDomain(CityTO.class, id);
 			getDefaultManager().deleteDomain(city);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -46,9 +43,9 @@ public class CityController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateCity", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody City city) {
+	public String update(@RequestBody CityTO city) {
 		try {
 			getDefaultManager().updateDomain(city);
 		} catch (Exception ex) {
@@ -57,18 +54,18 @@ public class CityController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveCity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody City city) {
+	public String save(@RequestBody CityTO city) {
 		getDefaultManager().saveDomain(city);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllCities", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<City> citys) {
+	public String saveAll(@RequestBody List<CityTO> citys) {
 		if (!CollectionUtils.isEmpty(citys)) {
-			for (City city : citys) {
+			for (CityTO city : citys) {
 				getDefaultManager().saveDomain(city);
 			}
 		}
@@ -76,9 +73,9 @@ public class CityController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllCities")
 	@ResponseBody
-	public List<City> getAllCitys() {
-		return (List) getDefaultManager().getAllDomain(City.class);
+	public List<CityTO> getAllCitys() {
+		return (List) getDefaultManager().getAllDomain(CityTO.class);
 	}
 }

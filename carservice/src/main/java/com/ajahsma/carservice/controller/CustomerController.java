@@ -6,22 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ajahsma.carservice.model.Customer;
-import com.ajahsma.carservice.service.CustomerManager;
-import com.ajahsma.carservice.service.DefaultManager;
+import com.ajahsma.carservice.manager.CustomerManager;
+import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.model.CustomerTO;
 
 /**
  * @author SHARAN A
  */
 
-@Controller("customerController")
-@RequestMapping(value = "/customer")
+@Controller
 public class CustomerController extends AbstractController {
 
 	@Autowired
@@ -32,11 +31,11 @@ public class CustomerController extends AbstractController {
 		return this.customerManager;
 	}
 	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@PathVariable long id) {
+	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			Customer customer = (Customer) getDefaultManager().getDomain(Customer.class, id);
+			CustomerTO customer = (CustomerTO) getDefaultManager().getDomain(CustomerTO.class, id);
 			getDefaultManager().deleteDomain(customer);
 		} catch (Exception ex) {
 			return ex.getMessage();
@@ -44,9 +43,9 @@ public class CustomerController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateCustomer", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody Customer customer) {
+	public String update(@RequestBody CustomerTO customer) {
 		try {
 			getDefaultManager().updateDomain(customer);
 		} catch (Exception ex) {
@@ -55,18 +54,18 @@ public class CustomerController extends AbstractController {
 		return "Data succesfully deleted!";
 	}
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveCustomer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody Customer customer) {
+	public String save(@RequestBody CustomerTO customer) {
 		getDefaultManager().saveDomain(customer);
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllCustomers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<Customer> customers) {
+	public String saveAll(@RequestBody List<CustomerTO> customers) {
 		if (!CollectionUtils.isEmpty(customers)) {
-			for (Customer customer : customers) {
+			for (CustomerTO customer : customers) {
 				getDefaultManager().saveDomain(customer);
 			}
 		}
@@ -74,9 +73,9 @@ public class CustomerController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllCustomers")
 	@ResponseBody
-	public List<Customer> getAllCustomers() {
-		return (List) getDefaultManager().getAllDomain(Customer.class);
+	public List<CustomerTO> getAllCustomers() {
+		return (List) getDefaultManager().getAllDomain(CustomerTO.class);
 	}
 }

@@ -8,7 +8,7 @@ import com.ajahsma.carservice.dao.CustomerDao;
  * @author SHARAN A
  */
 
-@Repository("myCustomerDao")
+@Repository
 public class CustomerDaoImpl extends DefaultDaoImpl implements CustomerDao {
 
 }

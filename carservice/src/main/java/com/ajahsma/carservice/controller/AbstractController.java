@@ -1,6 +1,6 @@
 package com.ajahsma.carservice.controller;
 
-import com.ajahsma.carservice.service.DefaultManager;
+import com.ajahsma.carservice.manager.DefaultManager;
 
 /**
  * @author SHARAN A
