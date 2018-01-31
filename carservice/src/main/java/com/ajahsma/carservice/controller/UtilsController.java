@@ -12,6 +12,7 @@ import com.ajahsma.carservice.manager.ApplicationUserManager;
 import com.ajahsma.carservice.manager.CarModelManager;
 import com.ajahsma.carservice.manager.CityManager;
 import com.ajahsma.carservice.manager.CustomerManager;
+import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.DesignationManager;
 import com.ajahsma.carservice.manager.EmployeeManager;
 import com.ajahsma.carservice.manager.ItemManager;
@@ -36,6 +37,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @Controller
 public class UtilsController extends AbstractController {
 
+	
 	@Autowired
 	ItemManager itemManager;
 
@@ -132,6 +134,11 @@ public class UtilsController extends AbstractController {
 		}
 
 		return jsonString;
+	}
+
+	@Override
+	protected DefaultManager getDefaultManager() {
+		return null;
 	}
 
 }

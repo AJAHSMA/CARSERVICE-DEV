@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.DesignationManager;
 import com.ajahsma.carservice.model.DesignationTO;
 
@@ -20,17 +20,21 @@ import com.ajahsma.carservice.model.DesignationTO;
  */
 
 @Controller
-public class DesignationController {
+public class DesignationController extends AbstractController {
 
 	@Autowired
 	private DesignationManager designationManager;
+
+	@Override
+	protected DefaultManager getDefaultManager() {
+		return this.designationManager;
+	}
 
 	@RequestMapping(value = "/deleteDesignation", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			DesignationTO designation = (DesignationTO) designationManager.getDomain(DesignationTO.class, id);
-			designationManager.deleteDomain(designation);
+			deleteDomain(DesignationTO.class, id);
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
@@ -41,7 +45,7 @@ public class DesignationController {
 	@ResponseBody
 	public String update(@RequestBody DesignationTO designation) {
 		try {
-			designationManager.updateDomain(designation);
+			updateDomain(designation);
 		} catch (Exception ex) {
 			return ex.getMessage();
 		}
@@ -51,18 +55,15 @@ public class DesignationController {
 	@RequestMapping(value = "/saveDesignation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public String save(@RequestBody DesignationTO designation) {
-		designationManager.saveDomain(designation);
+		saveDomain(designation);
 		return "Person succesfully saved!";
 	}
 
 	@RequestMapping(value = "/saveAllDesignations", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public String saveAll(@RequestBody List<DesignationTO> designations) {
-		if (!CollectionUtils.isEmpty(designations)) {
-			for (DesignationTO designation : designations) {
-				designationManager.saveDomain(designation);
-			}
-		}
+
+		saveAll(designations);
 		
 		return "Person succesfully saved!";
 	}
@@ -70,6 +71,7 @@ public class DesignationController {
 	@RequestMapping(value = "/getAllDesignations")
 	@ResponseBody
 	public List<DesignationTO> getAllDesignations() {
-		return (List) designationManager.getAllDomain(DesignationTO.class);
+		return (List<DesignationTO>) getAllDomains(DesignationTO.class);
 	}
+
 }
