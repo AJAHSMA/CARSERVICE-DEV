@@ -1,3 +1,3 @@
-default.configuration=SpringBoot_Hibernate_Example
+default.configuration=carservice
 eclipse.preferences.version=1
 hibernate3.enabled=true
