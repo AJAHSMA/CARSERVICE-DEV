@@ -87,7 +87,6 @@ public class DefaultManagerImpl implements DefaultManager {
 	}
 
 	@Override
-	@Transactional
 	public void deleteDomain(Domain domain) {
 		getDefaultDao().deleteDomain(domain);
 	}

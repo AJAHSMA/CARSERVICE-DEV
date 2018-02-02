@@ -71,6 +71,7 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 	@Override
 	public void deleteDomain(Domain domain) {
 		getHibernateTemplate().delete(domain);
+		getHibernateTemplate().flush();
 	}
 
 	@Override
