@@ -1,13 +1,12 @@
 package com.ajahsma.carservice.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.ajahsma.carservice.manager.DefaultManager;
-import com.ajahsma.carservice.model.DesignationTO;
 import com.ajahsma.carservice.model.Domain;
-
-import java.util.List;
 
 /**
  * @author SHARAN A

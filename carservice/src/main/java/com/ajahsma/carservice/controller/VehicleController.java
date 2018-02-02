@@ -1,6 +1,8 @@
 package com.ajahsma.carservice.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.VehicleManager;
 import com.ajahsma.carservice.model.VehicleTO;
+import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
@@ -33,44 +37,48 @@ public class VehicleController extends AbstractController {
 	
 	@RequestMapping(value = "/deleteVehicle", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true) Long id) {
+	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
 			VehicleTO vehicle = (VehicleTO) getDefaultManager().getDomain(VehicleTO.class, id);
 			getDefaultManager().deleteDomain(vehicle);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Data succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/updateVehicle", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody VehicleTO vehicle) {
+	JsonResponse update(@RequestBody VehicleTO vehicle) {
 		try {
 			getDefaultManager().updateDomain(vehicle);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Data succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody VehicleTO vehicle) {
+	JsonResponse save(@RequestBody VehicleTO vehicle) {
 		getDefaultManager().saveDomain(vehicle);
-		return "Data succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/saveAllVehicles", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<VehicleTO> vehicles) {
+	JsonResponse saveAll(@RequestBody List<VehicleTO> vehicles) {
 		if (!CollectionUtils.isEmpty(vehicles)) {
 			for (VehicleTO vehicle : vehicles) {
 				getDefaultManager().saveDomain(vehicle);
 			}
 		}
 		
-		return "Data succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/getAllVehicles")

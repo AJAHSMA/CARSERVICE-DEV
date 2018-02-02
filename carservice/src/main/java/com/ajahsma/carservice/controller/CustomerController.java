@@ -21,6 +21,7 @@ import com.ajahsma.carservice.manager.CustomerManager;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.model.CustomerTO;
 import com.ajahsma.carservice.model.Domain;
+import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
@@ -69,14 +70,14 @@ public class CustomerController extends AbstractController {
 
 	@RequestMapping(value = "/saveAllCustomers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<CustomerTO> customers) {
+	JsonResponse saveAll(@RequestBody List<CustomerTO> customers) {
 		if (!CollectionUtils.isEmpty(customers)) {
 			for (CustomerTO customer : customers) {
 				getDefaultManager().saveDomain(customer);
 			}
 		}
-		
-		return "Data succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/getAllCustomers")
@@ -95,25 +96,27 @@ public class CustomerController extends AbstractController {
 	
 	@RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true) Long id) {
+	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
 			CustomerTO customer = (CustomerTO) getDefaultManager().getDomain(CustomerTO.class, id);
 			getDefaultManager().deleteDomain(customer);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Data succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/updateCustomer", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody CustomerTO customer) {
+	JsonResponse update(@RequestBody CustomerTO customer) {
 		try {
 			getDefaultManager().updateDomain(customer);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Data succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	

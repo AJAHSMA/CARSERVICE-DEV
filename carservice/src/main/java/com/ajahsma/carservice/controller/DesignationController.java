@@ -1,6 +1,8 @@
 package com.ajahsma.carservice.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.DesignationManager;
 import com.ajahsma.carservice.model.DesignationTO;
+import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
@@ -32,40 +36,44 @@ public class DesignationController extends AbstractController {
 
 	@RequestMapping(value = "/deleteDesignation", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true) Long id) {
+	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
 			deleteDomain(DesignationTO.class, id);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Person succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/updateDesignation", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody DesignationTO designation) {
+	JsonResponse update(@RequestBody DesignationTO designation) {
 		try {
 			updateDomain(designation);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Designation succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/saveDesignation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody DesignationTO designation) {
+	JsonResponse save(@RequestBody DesignationTO designation) {
 		saveDomain(designation);
-		return "Person succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/saveAllDesignations", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public String saveAll(@RequestBody List<DesignationTO> designations) {
+	JsonResponse saveAll(@RequestBody List<DesignationTO> designations) {
 
 		saveAll(designations);
 		
-		return "Person succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/getAllDesignations")

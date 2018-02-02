@@ -1,6 +1,8 @@
 package com.ajahsma.carservice.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.CityManager;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.model.CityTO;
+import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
@@ -33,44 +37,47 @@ public class CityController extends AbstractController {
 	
 	@RequestMapping(value = "/deleteCity", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String delete(@RequestParam(value = "id", required = true) Long id) {
+	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
 			CityTO city = (CityTO) getDefaultManager().getDomain(CityTO.class, id);
 			getDefaultManager().deleteDomain(city);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Data succesfully deleted!";
-	}
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+		}
 
 	@RequestMapping(value = "/updateCity", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String update(@RequestBody CityTO city) {
+	JsonResponse update(@RequestBody CityTO city) {
 		try {
 			getDefaultManager().updateDomain(city);
 		} catch (Exception ex) {
-			return ex.getMessage();
+			ex.printStackTrace();
 		}
-		return "Data succesfully deleted!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/saveCity", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String save(@RequestBody CityTO city) {
+	JsonResponse save(@RequestBody CityTO city) {
 		getDefaultManager().saveDomain(city);
-		return "Data succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/saveAllCities", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String saveAll(@RequestBody List<CityTO> citys) {
+	JsonResponse saveAll(@RequestBody List<CityTO> citys) {
 		if (!CollectionUtils.isEmpty(citys)) {
 			for (CityTO city : citys) {
 				getDefaultManager().saveDomain(city);
 			}
 		}
-		
-		return "Data succesfully saved!";
+		Map<String, Object> items = new HashMap<>();
+		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
 	@RequestMapping(value = "/getAllCities")
