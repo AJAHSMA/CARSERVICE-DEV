@@ -80,7 +80,7 @@ public class CityController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
-	@RequestMapping(value = "/getAllCities")
+	@RequestMapping(value = "/getAllCities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<CityTO> getAllCitys() {
 		return (List) getDefaultManager().getAllDomain(CityTO.class);
