@@ -73,7 +73,7 @@ public class CityController extends AbstractController {
 		return "Data succesfully saved!";
 	}
 
-	@RequestMapping(value = "/getAllCities")
+	@RequestMapping(value = "/getAllCities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<CityTO> getAllCitys() {
 		return (List) getDefaultManager().getAllDomain(CityTO.class);
