@@ -25,6 +25,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class VehicleCustomerRegistrationController extends AbstractController {
 
 	@Autowired
@@ -34,12 +35,13 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 	protected DefaultManager getDefaultManager() {
 		return this.vehicleCustomerRegistrationManager;
 	}
-	
+
 	@RequestMapping(value = "/deleteVehicleCustomerRegistration", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			VehicleCustomerRegistrationTO vehicleCustomerRegistration = (VehicleCustomerRegistrationTO) getDefaultManager().getDomain(VehicleCustomerRegistrationTO.class, id);
+			VehicleCustomerRegistrationTO vehicleCustomerRegistration = (VehicleCustomerRegistrationTO) getDefaultManager()
+					.getDomain(VehicleCustomerRegistrationTO.class, id);
 			getDefaultManager().deleteDomain(vehicleCustomerRegistration);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -76,7 +78,7 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 				getDefaultManager().saveDomain(vehicleCustomerRegistration);
 			}
 		}
-		
+
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}

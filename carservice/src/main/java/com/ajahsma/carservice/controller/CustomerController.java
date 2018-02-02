@@ -28,6 +28,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class CustomerController extends AbstractController {
 
 	@Autowired
@@ -37,8 +38,7 @@ public class CustomerController extends AbstractController {
 	protected DefaultManager getDefaultManager() {
 		return this.customerManager;
 	}
-	
-	
+
 	@RequestMapping(value = "/saveCustomer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public JsonResponse save(@RequestBody CustomerTO customer) {
@@ -83,7 +83,7 @@ public class CustomerController extends AbstractController {
 	@RequestMapping(value = "/getAllCustomers")
 	@ResponseBody
 	public JsonResponse getAllCustomers() {
-	    List<Domain> allDomain = getDefaultManager().getAllDomain(CustomerTO.class);
+		List<Domain> allDomain = getDefaultManager().getAllDomain(CustomerTO.class);
 		Data data = new Data();
 		data.setItems(allDomain);
 		data.setType("getAllCustomers");
@@ -91,9 +91,9 @@ public class CustomerController extends AbstractController {
 		jsonaapi.setVersion("1.0");
 		JsonResponse jsonResponse = new JsonResponse(jsonaapi, data);
 		return jsonResponse;
-		
+
 	}
-	
+
 	@RequestMapping(value = "/deleteCustomer", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
@@ -119,5 +119,4 @@ public class CustomerController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
-	
 }

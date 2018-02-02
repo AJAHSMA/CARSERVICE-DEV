@@ -28,16 +28,15 @@ import com.ajahsma.carservice.model.PrimaryApprovelAndEstimationTO;
 import com.ajahsma.carservice.model.VehicleCustomerRegistrationTO;
 import com.ajahsma.carservice.model.VehicleTO;
 import com.ajahsma.carservice.utils.CarServiceUtils;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * @author SHARAN A
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class UtilsController extends AbstractController {
 
-	
 	@Autowired
 	ItemManager itemManager;
 
@@ -84,17 +83,27 @@ public class UtilsController extends AbstractController {
 		ItemTO item3 = (ItemTO) itemManager.getDomain(ItemTO.class, new Long(4));
 
 		NomenclatureTO nomenclature = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(1));
-		NomenclatureTO nomenclature1 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(2));
-		NomenclatureTO nomenclature2 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(3));
-		NomenclatureTO nomenclature3 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(4));
-		NomenclatureTO nomenclature4 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(5));
-		NomenclatureTO nomenclature5 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(6));
-		NomenclatureTO nomenclature6 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(7));
-		NomenclatureTO nomenclature7 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class, new Long(8));
+		NomenclatureTO nomenclature1 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(2));
+		NomenclatureTO nomenclature2 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(3));
+		NomenclatureTO nomenclature3 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(4));
+		NomenclatureTO nomenclature4 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(5));
+		NomenclatureTO nomenclature5 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(6));
+		NomenclatureTO nomenclature6 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(7));
+		NomenclatureTO nomenclature7 = (NomenclatureTO) nomenclatureManager.getDomain(NomenclatureTO.class,
+				new Long(8));
 
-		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation = new PrimaryApprovelAndEstimationTO("desc1", new BigDecimal("1000"), new BigDecimal("200"), new BigDecimal("1200"), null);
-		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation1 = new PrimaryApprovelAndEstimationTO("desc2", new BigDecimal("1200"), new BigDecimal("200"), new BigDecimal("1400"), null);
-		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation2 = new PrimaryApprovelAndEstimationTO("desc3", new BigDecimal("1400"), new BigDecimal("200"), new BigDecimal("1600"), null);
+		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation = new PrimaryApprovelAndEstimationTO("desc1",
+				new BigDecimal("1000"), new BigDecimal("200"), new BigDecimal("1200"), null);
+		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation1 = new PrimaryApprovelAndEstimationTO("desc2",
+				new BigDecimal("1200"), new BigDecimal("200"), new BigDecimal("1400"), null);
+		PrimaryApprovelAndEstimationTO primaryApprovelAndEstimation2 = new PrimaryApprovelAndEstimationTO("desc3",
+				new BigDecimal("1400"), new BigDecimal("200"), new BigDecimal("1600"), null);
 
 		InventoryTO inventory = new InventoryTO(new BigDecimal(1200), "30", "CEATE", "0001", "CE", "1001");
 
@@ -121,18 +130,19 @@ public class UtilsController extends AbstractController {
 		inventory.addCheckNomenclature(checkNomenclature4);
 		inventory.addCheckNomenclature(checkNomenclature5);
 
-		VehicleCustomerRegistrationTO vCR = new VehicleCustomerRegistrationTO(new Long(1111), "0001", Calendar.getInstance(), Calendar.getInstance(), vehicle, customer, inventory);
+		VehicleCustomerRegistrationTO vCR = new VehicleCustomerRegistrationTO(new Long(1111), "0001",
+				Calendar.getInstance(), Calendar.getInstance(), vehicle, customer, inventory);
 
-//		vehicleCustomerRegistrationManager.saveDomain(vCR);
+		// vehicleCustomerRegistrationManager.saveDomain(vCR);
 
 		String jsonString = "";
 
-		try {
+/*		try {
 			jsonString = CarServiceUtils.convertObjectToJson(vCR);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-
+*/
 		return jsonString;
 	}
 

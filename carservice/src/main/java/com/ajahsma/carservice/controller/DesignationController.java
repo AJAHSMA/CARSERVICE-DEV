@@ -24,6 +24,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class DesignationController extends AbstractController {
 
 	@Autowired
@@ -71,7 +72,7 @@ public class DesignationController extends AbstractController {
 	JsonResponse saveAll(@RequestBody List<DesignationTO> designations) {
 
 		saveAll(designations);
-		
+
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}

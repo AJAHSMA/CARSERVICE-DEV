@@ -25,6 +25,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class CityController extends AbstractController {
 
 	@Autowired
@@ -34,7 +35,7 @@ public class CityController extends AbstractController {
 	protected DefaultManager getDefaultManager() {
 		return this.cityManager;
 	}
-	
+
 	@RequestMapping(value = "/deleteCity", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
@@ -46,7 +47,7 @@ public class CityController extends AbstractController {
 		}
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
-		}
+	}
 
 	@RequestMapping(value = "/updateCity", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

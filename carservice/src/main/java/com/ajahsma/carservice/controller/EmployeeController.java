@@ -25,6 +25,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class EmployeeController extends AbstractController {
 
 	@Autowired
@@ -34,7 +35,7 @@ public class EmployeeController extends AbstractController {
 	protected DefaultManager getDefaultManager() {
 		return this.employeeManager;
 	}
-	
+
 	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {

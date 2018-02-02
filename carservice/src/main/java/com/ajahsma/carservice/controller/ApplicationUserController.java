@@ -25,6 +25,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  */
 
 @Controller
+@RequestMapping(value = "/carservice")
 public class ApplicationUserController extends AbstractController {
 
 	@Autowired
@@ -34,7 +35,7 @@ public class ApplicationUserController extends AbstractController {
 	protected DefaultManager getDefaultManager() {
 		return this.applicationUserManager;
 	}
-	
+
 	@RequestMapping(value = "/saveAapplicationUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse save(@RequestBody ApplicationUserTO applicationUser) {
@@ -60,7 +61,7 @@ public class ApplicationUserController extends AbstractController {
 	public List<ApplicationUserTO> getAllApplicationUsers() {
 		return (List) getDefaultManager().getAllDomain(ApplicationUserTO.class);
 	}
-	
+
 	@RequestMapping(value = "/updateAapplicationUser", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse update(@RequestBody ApplicationUserTO applicationUser) {
@@ -72,12 +73,13 @@ public class ApplicationUserController extends AbstractController {
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
-	
+
 	@RequestMapping(value = "/deleteAapplicationUser", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
 		try {
-			ApplicationUserTO applicationUser = (ApplicationUserTO) getDefaultManager().getDomain(ApplicationUserTO.class, id);
+			ApplicationUserTO applicationUser = (ApplicationUserTO) getDefaultManager()
+					.getDomain(ApplicationUserTO.class, id);
 			getDefaultManager().deleteDomain(applicationUser);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -86,7 +88,4 @@ public class ApplicationUserController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
-	
-
-	
 }
