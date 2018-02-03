@@ -5,12 +5,15 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "AttachmentContent")
 @Table(name = "attachmentcontent")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AttachmentContentTO extends AbstractIdDomain {
 
 	private byte[] contentBytes;

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class CarServiceUtils {
 
@@ -14,6 +15,8 @@ public class CarServiceUtils {
 
 		ObjectMapper mapper = new ObjectMapper();
 
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+	    
 		// Convert object to JSON string
 		String jsonInString = mapper.writeValueAsString(domain);
 		System.out.println(jsonInString);
@@ -24,6 +27,7 @@ public class CarServiceUtils {
 	public static Domain convertJsonToObject(String jsonInString, Class clazz) throws JsonParseException, JsonMappingException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 
 		// Convert object to JSON string and pretty print
 		Domain domain = (Domain) mapper.readValue(jsonInString, clazz);

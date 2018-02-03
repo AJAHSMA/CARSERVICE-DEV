@@ -4,12 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "Nomenclature")
 @Table(name = "nomenclature")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class NomenclatureTO extends AbstractIdDomain {
 	
 	private String code;

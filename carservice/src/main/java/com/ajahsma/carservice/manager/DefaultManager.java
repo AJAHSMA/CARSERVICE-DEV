@@ -21,9 +21,21 @@ public interface DefaultManager {
 	
 	Domain loadDomain(Class<? extends Domain> domainClass, Serializable id);
 	
+	Domain loadDomain(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize);
+	
+	Domain loadDomain(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize);
+	
 	Domain getDomain(Class<? extends Domain> domainClass, Serializable id);
 	
+	Domain getDomain(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize);
+	
+	Domain getDomain(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize);
+	
 	public List<Domain> getAllDomain(Class<? extends Domain> domainClass);
+	
+	public List<Domain> getAllDomain(Class<? extends Domain> domainClass, String nestedPathToInitialize);
+	
+	public List<Domain> getAllDomain(Class<? extends Domain> domainClass, String[] nestedPathsToInitialize);
 	
 	void deleteDomain(Domain domain);
 	
@@ -31,4 +43,7 @@ public interface DefaultManager {
 	
 	public Domain get(Class<? extends Domain> domainClass, Serializable id);
 
+	public Domain get(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize);
+
+	public Domain get(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize);
 }

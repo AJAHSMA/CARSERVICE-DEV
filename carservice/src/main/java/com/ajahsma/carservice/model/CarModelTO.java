@@ -8,12 +8,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "CarModel")
 @Table(name = "carmodel")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CarModelTO extends AbstractIdDomain {
 	
 	private CarMakeTO carMake;
