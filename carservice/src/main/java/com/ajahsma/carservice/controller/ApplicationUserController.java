@@ -39,9 +39,16 @@ public class ApplicationUserController extends AbstractController {
 	@RequestMapping(value = "/saveAapplicationUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse save(@RequestBody ApplicationUserTO applicationUser) {
-		getDefaultManager().saveDomain(applicationUser);
-		Map<String, Object> items = new HashMap<>();
-		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+		try {
+			getDefaultManager().saveDomain(applicationUser);
+			Map<String, Object> items = new HashMap<>();
+			items.put("status", "success");
+			return JSONHelperUtil.getJsonResponse("1.0", "saveAapplicationUser", items);
+		} catch (Exception exception) {
+			Map<String, Object> items = new HashMap<>();
+			items.put("status", "failure");
+			return JSONHelperUtil.getJsonResponse("1.0", "saveAapplicationUser", items);
+		}
 	}
 
 	@RequestMapping(value = "/saveAllAapplicationUsers", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
