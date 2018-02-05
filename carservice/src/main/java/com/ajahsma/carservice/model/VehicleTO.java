@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  * @author SHARAN A
  */
 
+@SuppressWarnings("serial")
 @Entity(name = "Vehicle")
 @Table(name = "vehicle")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
