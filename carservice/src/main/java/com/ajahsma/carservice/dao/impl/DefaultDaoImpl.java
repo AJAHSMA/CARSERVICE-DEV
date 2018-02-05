@@ -16,29 +16,29 @@ import com.ajahsma.carservice.model.Domain;
  */
 
 public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao {
-	
-	/*@Autowired
-	private SessionFactory sessionFactory;
 
-	private Session getHibernateTemplate() {
-		Session session = null;
-		try {
-		    session = sessionFactory.getCurrentSession();
-		} catch (HibernateExcepstion e) {
-		    session = sessionFactory.openSession();
-		}
-		return session;
-	}*/
-	
 	protected Query createQuery(String queryString) {
 		return getSession().createQuery(queryString);
 	}
-	
+
 	@Override
 	public Domain get(Class<? extends Domain> domainClass, Serializable id) {
 		Criteria criteria = createCriteria(domainClass);
 		criteria.add(Restrictions.eq("id", id));
 		return (Domain) criteria.list();
+	}
+
+	@Override
+	public Domain get(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize) {
+		String[] nestedPathsToInitialize = convertStringArray(nestedPathToInitialize);
+		return get(domainClass, id, nestedPathsToInitialize);
+	}
+
+	@Override
+	public Domain get(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize) {
+
+		return initializeNestedPathsOfDomain(get(domainClass, id), nestedPathsToInitialize);
+		
 	}
 
 	protected Criteria createCriteria(Class<?> persistentClass) {
@@ -53,8 +53,19 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 
 	@Override
 	public Domain loadDomain(Class<? extends Domain> domainClass, Serializable id) {
-		
+
 		return (Domain) getHibernateTemplate().load(domainClass, id);
+	}
+
+	@Override
+	public Domain loadDomain(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize) {
+		String[] nestedPathsToInitialize = convertStringArray(nestedPathToInitialize);
+		return loadDomain(domainClass, id, nestedPathsToInitialize);
+	}
+
+	@Override
+	public Domain loadDomain(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize) {
+		return initializeNestedPathsOfDomain(loadDomain(domainClass, id), nestedPathsToInitialize);
 	}
 
 	@Override
@@ -63,9 +74,32 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 	}
 
 	@Override
+	public Domain getDomain(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize) {
+		String[] nestedPathsToInitialize = convertStringArray(nestedPathToInitialize);
+		
+		return getDomain(domainClass, id, nestedPathsToInitialize);
+	}
+
+	@Override
+	public Domain getDomain(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize) {
+		return initializeNestedPathsOfDomain(getDomain(domainClass, id), nestedPathsToInitialize);
+	}
+
+	@Override
 	public List<Domain> getAllDomain(Class<? extends Domain> domainClass) {
 		Criteria criteria = createCriteria(domainClass);
 		return (List<Domain>) criteria.list();
+	}
+
+	@Override
+	public List<Domain> getAllDomain(Class<? extends Domain> domainClass, String nestedPathToInitialize) {
+		String[] nestedPathsToInitialize = convertStringArray(nestedPathToInitialize);
+		return getAllDomain(domainClass, nestedPathsToInitialize);
+	}
+
+	@Override
+	public List<Domain> getAllDomain(Class<? extends Domain> domainClass, String[] nestedPathsToInitialize) {
+		return initializeNestedPathsOfListResults(getAllDomain(domainClass), nestedPathsToInitialize);
 	}
 
 	@Override
@@ -76,9 +110,9 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 	@Override
 	public void updateDomain(Domain domain) {
 		getHibernateTemplate().update(domain);
-		
+
 	}
-	
+
 	private Session getSession() {
 		try {
 			return getHibernateTemplate().getSessionFactory().getCurrentSession();
@@ -87,5 +121,12 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 		}
 	}
 
-
+	private String[] convertStringArray(String value) {
+		String[] nestedPathsToInitialize = null;
+		if (value != null) {
+			nestedPathsToInitialize = new String[1];
+			nestedPathsToInitialize[0] = value;
+		}
+		return nestedPathsToInitialize;
+	}
 }

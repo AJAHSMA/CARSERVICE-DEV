@@ -72,8 +72,28 @@ public class DefaultManagerImpl implements DefaultManager {
 	}
 
 	@Override
+	public Domain loadDomain(Class<? extends Domain> domainClass, Serializable id, String nesteddPathToInitialize) {
+		return getDefaultDao().loadDomain(domainClass, id, nesteddPathToInitialize);
+	}
+
+	@Override
+	public Domain loadDomain(Class<? extends Domain> domainClass, Serializable id, String[] nesteddPathsToInitialize) {
+		return getDefaultDao().loadDomain(domainClass, id, nesteddPathsToInitialize);
+	}
+
+	@Override
 	public Domain get(Class<? extends Domain> domainClass, Serializable id) {
 		return getDefaultDao().get(domainClass, id);
+	}
+
+	@Override
+	public Domain get(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize) {
+		return getDefaultDao().get(domainClass, id, nestedPathToInitialize);
+	}
+
+	@Override
+	public Domain get(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize) {
+		return getDefaultDao().get(domainClass, id, nestedPathsToInitialize);
 	}
 
 	@Override
@@ -82,8 +102,29 @@ public class DefaultManagerImpl implements DefaultManager {
 	}
 
 	@Override
+	public Domain getDomain(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize) {
+		return getDefaultDao().getDomain(domainClass, id, nestedPathToInitialize);
+	}
+
+	@Override
+	public Domain getDomain(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize) {
+		return getDefaultDao().getDomain(domainClass, id, nestedPathsToInitialize);
+	}
+
+	@Override
 	public List<Domain> getAllDomain(Class<? extends Domain> domainClass) {
 		return getDefaultDao().getAllDomain(domainClass);
+	}
+
+	@Override
+	public List<Domain> getAllDomain(Class<? extends Domain> domainClass, String nestedPathToInitialize) {
+		return getDefaultDao().getAllDomain(domainClass, nestedPathToInitialize);
+	}
+
+	@Override
+	@Transactional
+	public List<Domain> getAllDomain(Class<? extends Domain> domainClass, String[] nestedPathsToInitialize) {
+		return getDefaultDao().getAllDomain(domainClass, nestedPathsToInitialize);
 	}
 
 	@Override

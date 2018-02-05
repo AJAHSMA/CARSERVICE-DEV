@@ -4,12 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "Parameter")
 @Table(name = "parameter")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ParameterTO extends AbstractIdDomain {
 	
 	private String applicationId;

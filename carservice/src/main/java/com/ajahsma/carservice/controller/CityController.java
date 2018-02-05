@@ -31,6 +31,8 @@ public class CityController extends AbstractController {
 	@Autowired
 	private CityManager cityManager;
 
+	private static final String[] NESTED_PATHS_TO_INITIALIZE = new String[] {"state.country"};
+
 	@Override
 	protected DefaultManager getDefaultManager() {
 		return this.cityManager;
@@ -83,7 +85,17 @@ public class CityController extends AbstractController {
 
 	@RequestMapping(value = "/getAllCities", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<CityTO> getAllCitys() {
-		return (List) getDefaultManager().getAllDomain(CityTO.class);
+	public List<CityTO> getAllCities(@RequestParam(value = "isLoadLazy", required = false) Boolean isLoadLazy) {
+		setIsLoadLazy(isLoadLazy);
+		List<CityTO> cities = (List) getAllDomains(CityTO.class, getNestedPathsToInitializeForServiceFind()); 
+		
+		return cities;
 	}
+	
+	
+	@Override
+	protected String[] getNestedPathsToInitializeForServiceFind() {
+		return NESTED_PATHS_TO_INITIALIZE;
+	}
+
 }

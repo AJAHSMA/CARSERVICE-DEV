@@ -10,12 +10,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "PrimaryApprovelAndEstimation")
 @Table(name = "primaryapprovelestimation")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PrimaryApprovelAndEstimationTO extends AbstractIdDomain {
 	
 	public String description;

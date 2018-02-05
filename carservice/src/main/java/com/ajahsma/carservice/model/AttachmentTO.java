@@ -8,12 +8,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "Attachment")
 @Table(name = "attachment")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AttachmentTO extends AbstractIdDomain {
 
 	private String fileName;

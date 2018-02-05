@@ -15,12 +15,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "Inventory")
 @Table(name = "inventory")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class InventoryTO extends AbstractIdDomain {
 	
 	private BigDecimal primaryApprovelAndEstimationTotal;

@@ -8,12 +8,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * @author SHARAN A
  */
 
 @Entity(name = "CheckNomenclature")
 @Table(name = "checknomenclature")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CheckNomenclatureTO extends AbstractIdDomain {
 	
 	private NomenclatureTO nomenclature;
