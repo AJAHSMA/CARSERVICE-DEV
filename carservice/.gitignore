@@ -1,1 +1,15 @@
-/target/
+*.class
+/AJAHSMA-server.log 
+target/
+data 
+
+/bin/
+*.log 
+
+.classpath
+.project
+.settings/
+target/
+
+
+/.metadata/
