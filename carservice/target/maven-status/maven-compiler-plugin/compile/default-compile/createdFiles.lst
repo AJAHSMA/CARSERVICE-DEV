@@ -84,6 +84,7 @@ com\ajahsma\carservice\manager\EmployeeManager.class
 com\ajahsma\carservice\utils\CarServiceUtils.class
 com\ajahsma\carservice\manager\CarMakeManager.class
 com\ajahsma\carservice\manager\DesignationManager.class
+com\ajahsma\carservice\dao\impl\BeanWrapperHibernateInitializer.class
 com\ajahsma\carservice\model\ItemTO.class
 com\ajahsma\carservice\model\CustomerDemandedRepairTO.class
 com\ajahsma\carservice\config\DBConfiguration.class
@@ -97,6 +98,7 @@ com\ajahsma\carservice\json\Jsonaapi.class
 com\ajahsma\carservice\utils\JSONHelperUtil.class
 com\ajahsma\carservice\controller\CustomerController.class
 com\ajahsma\carservice\dao\DefaultDao.class
+com\ajahsma\carservice\dao\HibernateInitializer.class
 com\ajahsma\carservice\dao\impl\CarModelDaoImpl.class
 com\ajahsma\carservice\model\CustomerTO.class
 com\ajahsma\carservice\utils\DateUtil.class

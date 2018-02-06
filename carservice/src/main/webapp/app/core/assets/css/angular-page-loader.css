@@ -1,0 +1,32 @@
+preloader div {
+  transition: 0.25s linear all;
+}
+
+preloader div.ng-hide {
+  opacity: 0;
+}
+
+.loader {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #ced7dc;
+  border-radius: 50%;
+  border-top: 16px solid #0288d1;
+  width: 118px;
+  height: 118px;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+  z-index: 10001
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

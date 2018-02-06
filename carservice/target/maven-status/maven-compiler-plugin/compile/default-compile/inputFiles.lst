@@ -24,12 +24,14 @@ D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\controller\DesignationController.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\manager\NomenclatureManager.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\model\IdDomain.java
+D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\dao\HibernateInitializer.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\controller\ApplicationUserController.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\dao\VehicleDao.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\model\PrimaryApprovelAndEstimationTO.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\enumeration\NomenclatureCheckTypeEnum.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\controller\ModelController.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\controller\VehicleCustomerRegistrationController.java
+D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\dao\impl\BeanWrapperHibernateInitializer.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\manager\CarModelManager.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\Application.java
 D:\Projects\AJAHSMA\PROJECTS\CARSERVICE-SOURCE-CODE\carservice\src\main\java\com\ajahsma\carservice\manager\impl\DefaultManagerImpl.java
