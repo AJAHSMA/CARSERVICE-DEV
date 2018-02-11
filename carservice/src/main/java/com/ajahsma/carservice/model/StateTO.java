@@ -41,7 +41,7 @@ public class StateTO extends AbstractIdDomain {
 		this.description = description;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "country_id", nullable = false)
 	public CountryTO getCountry() {
 		return country;
@@ -50,6 +50,5 @@ public class StateTO extends AbstractIdDomain {
 	public void setCountry(CountryTO country) {
 		this.country = country;
 	}
-	
 
 }

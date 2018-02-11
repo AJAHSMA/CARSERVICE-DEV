@@ -1,26 +1,13 @@
-package com.ajahsma.carservice.model;
+package com.ajahsma.carservice.dto;
 
 import java.util.Calendar;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
- * @author SHARAN A
+ * @author DEVU I
  */
 
-@Entity(name = "Employee")
-@Table(name = "employee")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class EmployeeTO extends AbstractIdDomain {
-	
+public class EmployeeDTO extends AbstractIdDomain {
+
 	private String tittle;
 	private String applicationId;
 	private String name;
@@ -35,19 +22,18 @@ public class EmployeeTO extends AbstractIdDomain {
 	private String idProofNo;
 	private String officePhoneNo;
 	private String officeEmailId;
-//	private String password;
-	
+	// private String password;
+
 	private Boolean isActive;
-	
+
 	private Calendar dob;
 	private Calendar joingDate;
-	
-	private CityTO city;
-//	private State state;
-//	private Country country;
-	private DesignationTO designation;
 
-	@Column(name="tittle", nullable=false)
+	private CityDTO city;
+	// private State state;
+	// private Country country;
+	private DesignationDTO designation;
+
 	public String getTittle() {
 		return tittle;
 	}
@@ -56,7 +42,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.tittle = tittle;
 	}
 
-	@Column(name="applicationid", nullable=false)
 	public String getApplicationId() {
 		return applicationId;
 	}
@@ -65,7 +50,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.applicationId = applicationId;
 	}
 
-	@Column(name="name", nullable=false)
 	public String getName() {
 		return name;
 	}
@@ -74,7 +58,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.name = name;
 	}
 
-	@Column(name="gardianname", nullable=false)
 	public String getGardianName() {
 		return gardianName;
 	}
@@ -83,7 +66,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.gardianName = gardianName;
 	}
 
-	@Column(name="address", nullable=false)
 	public String getAddress() {
 		return address;
 	}
@@ -92,7 +74,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.address = address;
 	}
 
-	@Column(name="pincode", nullable=false)
 	public String getPincode() {
 		return pincode;
 	}
@@ -101,7 +82,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.pincode = pincode;
 	}
 
-	@Column(name="permanentaddress", nullable=false)
 	public String getPermanentAaddress() {
 		return permanentAaddress;
 	}
@@ -110,7 +90,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.permanentAaddress = permanentAaddress;
 	}
 
-	@Column(name="permanentpincode", nullable=false)
 	public String getPermanentPincode() {
 		return permanentPincode;
 	}
@@ -119,7 +98,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.permanentPincode = permanentPincode;
 	}
 
-	@Column(name="phoneno", nullable=false)
 	public String getPhoneNo() {
 		return phoneNo;
 	}
@@ -128,7 +106,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.phoneNo = phoneNo;
 	}
 
-	@Column(name="emailid", nullable=true)
 	public String getEmailId() {
 		return emailId;
 	}
@@ -137,7 +114,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.emailId = emailId;
 	}
 
-	@Column(name="idproof", nullable=false)
 	public String getIdProof() {
 		return idProof;
 	}
@@ -146,7 +122,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.idProof = idProof;
 	}
 
-	@Column(name="idproofno", nullable=false)
 	public String getIdProofNo() {
 		return idProofNo;
 	}
@@ -155,7 +130,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.idProofNo = idProofNo;
 	}
 
-	@Column(name="officephoneno", nullable=true)
 	public String getOfficePhoneNo() {
 		return officePhoneNo;
 	}
@@ -164,7 +138,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.officePhoneNo = officePhoneNo;
 	}
 
-	@Column(name="officeemailid", nullable=true)
 	public String getOfficeEmailId() {
 		return officeEmailId;
 	}
@@ -173,16 +146,12 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.officeEmailId = officeEmailId;
 	}
 
-	/*@Column(name="password", nullable=false)
-	public String getPassword() {
-		return password;
-	}
+	/*
+	 * public String getPassword() { return password; }
+	 * 
+	 * public void setPassword(String password) { this.password = password; }
+	 */
 
-	public void setPassword(String password) {
-		this.password = password;
-	}*/
-
-	@Column(name="isactive", nullable=false)
 	public Boolean getIsActive() {
 		return isActive;
 	}
@@ -191,7 +160,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.isActive = isActive;
 	}
 
-	@Column(name="dob", nullable=false)
 	public Calendar getDob() {
 		return dob;
 	}
@@ -200,7 +168,6 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.dob = dob;
 	}
 
-	@Column(name="joingdate", nullable=false)
 	public Calendar getJoingDate() {
 		return joingDate;
 	}
@@ -209,44 +176,33 @@ public class EmployeeTO extends AbstractIdDomain {
 		this.joingDate = joingDate;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
-	@JoinColumn(name = "city_id", nullable = false)
-	public CityTO getCity() {
+	public CityDTO getCity() {
 		return city;
 	}
 
-	public void setCity(CityTO city) {
+	public void setCity(CityDTO city) {
 		this.city = city;
 	}
 
-	/*@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
-	@JoinColumn(name = "state_id", nullable = false)
-	public State getState() {
-		return state;
-	}
+	/*
+	 * 
+	 * public State getState() { return state; }
+	 * 
+	 * public void setState(State state) { this.state = state; }
+	 * 
+	 * 
+	 * 
+	 * public Country getCountry() { return country; }
+	 * 
+	 * public void setCountry(Country country) { this.country = country; }
+	 */
 
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
-	@JoinColumn(name = "country_id", nullable = false)
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}*/
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
-	@JoinColumn(name = "designation_id", nullable = false)
-	public DesignationTO getDesignation() {
+	public DesignationDTO getDesignation() {
 		return designation;
 	}
 
-	public void setDesignation(DesignationTO designation) {
+	public void setDesignation(DesignationDTO designation) {
 		this.designation = designation;
 	}
-	
+
 }

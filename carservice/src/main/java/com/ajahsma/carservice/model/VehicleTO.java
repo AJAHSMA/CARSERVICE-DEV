@@ -63,7 +63,7 @@ public class VehicleTO extends AbstractIdDomain {
 		this.fuel = fuel;
 	}
 
-	/*@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	/*@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "make_id", nullable = true)
 	public Make getMake() {
 		return make;
@@ -73,7 +73,7 @@ public class VehicleTO extends AbstractIdDomain {
 		this.make = make;
 	}*/
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "carmodel_id", nullable = true)
 	public CarModelTO getCarModel() {
 		return carModel;

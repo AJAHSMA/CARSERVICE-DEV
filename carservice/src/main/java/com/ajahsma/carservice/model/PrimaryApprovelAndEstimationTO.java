@@ -73,7 +73,7 @@ public class PrimaryApprovelAndEstimationTO extends AbstractIdDomain {
 		this.total = total;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "inventory_id", nullable = false)
 	public InventoryTO getInventory() {
 		return inventory;

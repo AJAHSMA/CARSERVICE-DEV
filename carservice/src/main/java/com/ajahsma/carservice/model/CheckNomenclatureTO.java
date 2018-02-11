@@ -31,7 +31,7 @@ public class CheckNomenclatureTO extends AbstractIdDomain {
 		this.remarks = remarks;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "nomenclature_id", nullable = false)
 	public NomenclatureTO getNomenclature() {
 		return nomenclature;
@@ -59,7 +59,7 @@ public class CheckNomenclatureTO extends AbstractIdDomain {
 		this.remarks = remarks;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "inventory_id", nullable = false)
 	public InventoryTO getInventory() {
 		return inventory;

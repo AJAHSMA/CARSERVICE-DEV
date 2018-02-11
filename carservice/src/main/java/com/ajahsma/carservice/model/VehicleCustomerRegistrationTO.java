@@ -88,7 +88,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 		this.currentDatetime = currentDatetime;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "customersignature_id", nullable = true)
 	public AttachmentTO getCustomerSignature() {
 		return customerSignature;
@@ -98,7 +98,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 		this.customerSignature = customerSignature;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "vehicle_id", nullable = false)
 	public VehicleTO getVehicle() {
 		return vehicle;
@@ -108,7 +108,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 		this.vehicle = vehicle;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "customer_id", nullable = false)
 	public CustomerTO getCustomer() {
 		return customer;
@@ -118,7 +118,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 		this.customer = customer;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "inventory_id", nullable = true)
 	public InventoryTO getInventory() {
 		return inventory;
@@ -129,7 +129,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 	}
 
 	/*
-	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	 * 
 	 * @JoinColumn(name="insidehood_id", nullable=true) public InsideHood
 	 * getInsideHood() { return insideHood; }
@@ -137,7 +137,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 	 * public void setInsideHood(InsideHood insideHood) { this.insideHood =
 	 * insideHood; }
 	 * 
-	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	 * 
 	 * @JoinColumn(name="insidecar_id", nullable=true) public InsideCar
 	 * getInsideCar() { return insideCar; }
@@ -145,7 +145,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 	 * public void setInsideCar(InsideCar insideCar) { this.insideCar =
 	 * insideCar; }
 	 * 
-	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	 * 
 	 * @JoinColumn(name="outsidecar_id", nullable=true) public OutsideCar
 	 * getOutsideCar() { return outsideCar; }
@@ -153,7 +153,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 	 * public void setOutsideCar(OutsideCar outsideCar) { this.outsideCar =
 	 * outsideCar; }
 	 * 
-	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	 * @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	 * 
 	 * @JoinColumn(name="unclearbody_id", nullable=true) public UnderBody
 	 * getUnclearBody() { return unclearBody; }
@@ -162,7 +162,7 @@ public class VehicleCustomerRegistrationTO extends AbstractIdDomain {
 	 * unclearBody; }
 	 */
 
-	@OneToMany(mappedBy = "vehicleCustomerRegistration", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "vehicleCustomerRegistration", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	public Set<CustomerDemandedRepairTO> getCustomerDemandedRepairs() {
 		return customerDemandedRepairs;
 	}

@@ -20,6 +20,7 @@ public class CarMakeTO extends AbstractIdDomain {
 
 	@Column(name="code", nullable=false)
 	public String getCode() {
+		System.out.println("dev");
 		return code;
 	}
 

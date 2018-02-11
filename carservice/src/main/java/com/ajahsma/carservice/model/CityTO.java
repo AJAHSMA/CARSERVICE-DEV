@@ -41,7 +41,7 @@ public class CityTO extends AbstractIdDomain {
 		this.description = description;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "state_id", nullable = false)
 	public StateTO getState() {
 		return state;

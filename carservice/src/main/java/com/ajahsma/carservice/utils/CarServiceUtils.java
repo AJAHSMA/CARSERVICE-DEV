@@ -1,6 +1,9 @@
 package com.ajahsma.carservice.utils;
 
 import java.io.IOException;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
 
 import com.ajahsma.carservice.model.Domain;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -32,6 +35,22 @@ public class CarServiceUtils {
 		// Convert object to JSON string and pretty print
 		Domain domain = (Domain) mapper.readValue(jsonInString, clazz);
 		return domain;
+	}
+	
+	public static boolean isListNotNullAndEmpty(List list)
+	{
+		return (list != null && !list.isEmpty());
+	}
+	
+	public static boolean isNull(Object object)
+	{
+		return object == null;
+	}
+	
+	public static <Source, Destination> Destination copyBeanProperties(Source source, Class Destination) throws InstantiationException, IllegalAccessException{
+		Destination destination = (Destination) Destination.newInstance();
+		BeanUtils.copyProperties(source, destination);
+		return destination;
 	}
 
 }

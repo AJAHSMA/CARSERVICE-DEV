@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ajahsma.carservice.dao.DefaultDao;
 import com.ajahsma.carservice.model.Domain;
@@ -15,6 +16,7 @@ import com.ajahsma.carservice.model.Domain;
  * @author SHARAN A
  */
 
+@Transactional
 public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao {
 
 	protected Query createQuery(String queryString) {
@@ -113,7 +115,7 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 
 	}
 
-	private Session getSession() {
+	public Session getSession() {
 		try {
 			return getHibernateTemplate().getSessionFactory().getCurrentSession();
 		} catch (Exception e) {

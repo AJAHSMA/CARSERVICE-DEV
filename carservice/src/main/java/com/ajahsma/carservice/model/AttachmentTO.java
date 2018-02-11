@@ -41,7 +41,7 @@ public class AttachmentTO extends AbstractIdDomain {
 		this.contentType = contentType;
 	}
 	
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="attachmentcontent_id", nullable=false)
 	public AttachmentContentTO getAttachmentContent() {
 		return attachmentContent;

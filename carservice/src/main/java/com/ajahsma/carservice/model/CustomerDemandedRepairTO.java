@@ -31,7 +31,7 @@ public class CustomerDemandedRepairTO extends AbstractIdDomain {
 		this.description = description;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "vehcustregtion_id", nullable = false)
 	public VehicleCustomerRegistrationTO getVehicleCustomerRegistration() {
 		return vehicleCustomerRegistration;

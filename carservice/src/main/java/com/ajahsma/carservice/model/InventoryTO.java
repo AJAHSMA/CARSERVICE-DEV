@@ -103,7 +103,7 @@ public class InventoryTO extends AbstractIdDomain {
 		this.kmReading = kmReading;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="cardamage_id", nullable=true)
 	public AttachmentTO getCarDamage() {
 		return carDamage;
@@ -113,7 +113,7 @@ public class InventoryTO extends AbstractIdDomain {
 		this.carDamage = carDamage;
 	}
 
-	/*@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	/*@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name="vehcustregtion_id", nullable=false)
 	public VehicleCustomerRegistration getVehicleCustomerRegistration() {
 		return vehicleCustomerRegistration;
@@ -133,7 +133,7 @@ public class InventoryTO extends AbstractIdDomain {
 		this.items = items;
 	}
 
-	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
+	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
 	public Set<PrimaryApprovelAndEstimationTO> getPrimaryApprovelAndEstimations() {
 		return primaryApprovelAndEstimations;
 	}
@@ -142,7 +142,7 @@ public class InventoryTO extends AbstractIdDomain {
 		this.primaryApprovelAndEstimations = primaryApprovelAndEstimations;
 	}
 
-	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval=true)
+	@OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
 	public Set<CheckNomenclatureTO> getCheckNomenclatures() {
 		return checkNomenclatures;
 	}

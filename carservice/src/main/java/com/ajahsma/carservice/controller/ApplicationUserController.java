@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.ApplicationUserDTO;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.ApplicationUserManager;
 import com.ajahsma.carservice.manager.DefaultManager;
@@ -93,6 +94,15 @@ public class ApplicationUserController extends AbstractController {
 		}
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+	}
+	
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	JsonResponse login(@RequestBody ApplicationUserDTO applicationUserDTO)
+	{
+		String urlType = "/login";
+		JsonResponse response = applicationUserManager.login(applicationUserDTO, urlType);
+		return response;
 	}
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.EmployeeDTO;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.EmployeeManager;
@@ -36,6 +37,15 @@ public class EmployeeController extends AbstractController {
 		return this.employeeManager;
 	}
 
+	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	JsonResponse employeeeRegister(@RequestBody EmployeeDTO employeeDTO) {
+		String urlType = "/saveEmployee";
+		JsonResponse response =  employeeManager.save(employeeDTO, urlType);
+		return response;
+		
+	}
+	
 	@RequestMapping(value = "/deleteEmployee", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse delete(@RequestParam(value = "id", required = true) Long id) {
@@ -61,13 +71,13 @@ public class EmployeeController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
-	@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	/*@RequestMapping(value = "/saveEmployee", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	JsonResponse save(@RequestBody EmployeeTO employee) {
+	JsonResponse save(@RequestBody EmployeeDTO employeeDTO) {
 		getDefaultManager().saveDomain(employee);
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
-	}
+	}*/
 
 	@RequestMapping(value = "/saveAllEmployees", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

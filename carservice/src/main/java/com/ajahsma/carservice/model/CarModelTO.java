@@ -22,7 +22,7 @@ public class CarModelTO extends AbstractIdDomain {
 	private CarMakeTO carMake;
 	private String name;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.DETACH)
 	@JoinColumn(name = "carmake_id", nullable = false)
 	public CarMakeTO getCarMake() {
 		return carMake;
