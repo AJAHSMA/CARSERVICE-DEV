@@ -49,8 +49,8 @@ public class DefaultDaoImpl extends AbstractDefaultDaoImpl implements DefaultDao
 	}
 
 	@Override
-	public Long saveDomain(Domain domain) {
-		return (Long) getHibernateTemplate().save(domain);
+	public Serializable saveDomain(Domain domain) {
+		return getHibernateTemplate().save(domain);
 	}
 
 	@Override

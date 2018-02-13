@@ -11,7 +11,7 @@ import com.ajahsma.carservice.model.Domain;
 
 public interface DefaultDao {
 
-	Long saveDomain(Domain domain);
+	Serializable saveDomain(Domain domain);
 	
 	Domain loadDomain(Class<? extends Domain> domainClass, Serializable id);
 	

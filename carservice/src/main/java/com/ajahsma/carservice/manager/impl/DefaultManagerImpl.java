@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
@@ -51,8 +52,15 @@ public class DefaultManagerImpl implements DefaultManager {
 
 	@Override
 	@Transactional
-	public Long saveDomain(Domain domain) {
-		return getDefaultDao().saveDomain(domain);
+	public Serializable saveDomain(Domain domain) {
+		Serializable id = null;
+		
+		initSave(domain);
+	    validateSave(domain);
+	    id = getDefaultDao().saveDomain(domain);
+	    afterSave(domain);
+
+		return id;
 	}
 
 	@Override
@@ -136,7 +144,10 @@ public class DefaultManagerImpl implements DefaultManager {
 	@Override
 	@Transactional
 	public void updateDomain(Domain domain) {
-		getDefaultDao().updateDomain(domain);
+		initUpdate(domain);
+	    validateUpdate(domain);
+	    getDefaultDao().updateDomain(domain);
+	    afterUpdate(domain);
 	}
 
 	public Domain getDomain() {
@@ -145,6 +156,30 @@ public class DefaultManagerImpl implements DefaultManager {
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;
+	}
+
+	protected void initSave(Domain domain2) {
+		// TODO Auto-generated method stub
+	}
+
+	protected void validateSave(Domain domain2) {
+		// TODO Auto-generated method stub
+	}
+
+	protected void afterSave(Domain domain2) {
+		// TODO Auto-generated method stub
+	}
+
+	protected void initUpdate(Domain domain2) {
+		// TODO Auto-generated method stub
+	}
+
+	protected void validateUpdate(Domain domain2) {
+		// TODO Auto-generated method stub
+	}
+
+	protected void afterUpdate(Domain domain2) {
+		// TODO Auto-generated method stub
 	}
 
 }
