@@ -1,9 +1,11 @@
 package com.ajahsma.carservice.utils;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import com.ajahsma.carservice.model.Domain;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -12,6 +14,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class CarServiceUtils {
 
 	public static String convertObjectToJson(Domain domain) throws JsonProcessingException {
@@ -45,6 +48,27 @@ public class CarServiceUtils {
 	public static boolean isNull(Object object)
 	{
 		return object == null;
+	}
+	
+	public static boolean isNotNull(Object object)
+	{
+		return object != null;
+	}
+	
+	/**
+	 * Return true if the supplied Collection is null or empty. Otherwise, return false.
+	 */
+	public static boolean isEmpty(Collection list)
+	{
+		return CollectionUtils.isEmpty(list);
+	}
+	
+	/**
+	 * Return true if the supplied Collection has atleast one value. Otherwise, return false.
+	 */
+	public static boolean isNotEmpty(Collection list)
+	{
+		return (!CollectionUtils.isEmpty(list));
 	}
 	
 	public static <Source, Destination> Destination copyBeanProperties(Source source, Class Destination) throws InstantiationException, IllegalAccessException{
