@@ -33,7 +33,7 @@ public class ApplicationUserDaoImpl extends DefaultDaoImpl implements Applicatio
 	{
 		Query query = null;
 		
-		String hqlQuery = "SELECT applicationuser FROM ApplicationUserTO applicationuser where applicationuser.userName=:userName";
+		String hqlQuery = "SELECT applicationuser FROM ApplicationUser applicationuser where applicationuser.userName=:userName";
 		
 		query = getSession().createQuery(hqlQuery);
 		
