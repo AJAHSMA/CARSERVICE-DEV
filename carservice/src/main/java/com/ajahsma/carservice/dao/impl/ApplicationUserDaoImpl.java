@@ -28,11 +28,14 @@ public class ApplicationUserDaoImpl extends DefaultDaoImpl implements Applicatio
 	@Override
 	public Object findByUserName(String userName) 
 	{
-		Query query = null;
-		String hqlQuery = "SELECT applicationUser FROM ApplicationUserTO applicationUser WHERE applicationUser.userName=:userName";
+		//Hql query is not working	
+		/*Query query = null;
+		String hqlQuery = "SELECT applicationuser FROM ApplicationUserTO applicationuser where applicationuser.userName=:userName";
 		query = getSession().createQuery(hqlQuery);
 		query.setParameter("userName", userName);
-		return query.uniqueResult();
+		return query.uniqueResult();*/
+	
+		return getSession().createCriteria(ApplicationUserTO.class, "applicationuser").add(Restrictions.eq("applicationuser.userName", userName)).uniqueResult();
 	}
 
 }
