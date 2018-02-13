@@ -35,7 +35,7 @@ public class ApplicationUserDaoImpl extends DefaultDaoImpl implements Applicatio
 		
 		String hqlQuery = "SELECT applicationuser FROM ApplicationUser applicationuser where applicationuser.userName=:userName";
 		
-		query = getSession().createQuery(hqlQuery);
+		query = createQuery(hqlQuery);
 		
 		query.setParameter("userName", userName);
 		
