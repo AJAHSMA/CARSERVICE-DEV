@@ -17,6 +17,7 @@ import com.ajahsma.carservice.dto.EmployeeDTO;
 import com.ajahsma.carservice.dto.StateDTO;
 import com.ajahsma.carservice.json.Data;
 import com.ajahsma.carservice.json.JsonResponse;
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.ApplicationUserManager;
 import com.ajahsma.carservice.model.ApplicationUserTO;
 import com.ajahsma.carservice.utils.CarServiceUtils;
@@ -47,8 +48,10 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 			if (CarServiceUtils.isListNotNullAndEmpty(applicationUser)) {
 				ApplicationUserTO appUserTO = applicationUser.get(0);
 				if (appUserTO.getLoginAttempts() == 5 || appUserTO.getIsActive() == false) {
-					items.put("status", "failure");
-					items.put("message", "Account locked");
+
+					items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
+					items.put(JsonResponse.MESSAGE, JsonResponseMessage.ERROR_ACCOUNT_LOCKED);
+
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				}
 				if ((applicationUserTO.getPassword()).equals(appUserTO.getPassword())) {
@@ -64,26 +67,27 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 					cityDTO.setState(stateDTO);
 					employeeDTO.setCity(cityDTO);
 					
-					items.put("status", "success");
-					items.put("message", "logged in successfully");
-					items.put("data", employeeDTO);
+					items.put(JsonResponse.STATUS, JsonResponseMessage.SUCCESS);
+					items.put(JsonResponse.MESSAGE, JsonResponseMessage.INFO_LOGGED_IN_SUCCESSFULLY);
+					items.put(JsonResponse.DATA, employeeDTO);
+					
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				} else {
 					appUserTO.setLoginAttempts(appUserTO.getLoginAttempts() + 1);
 					applicationUserDao.updateDomain(appUserTO);
-					items.put("status", "failure");
-					items.put("message", "Invalid credentials");
+					items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
+					items.put(JsonResponse.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				}
 			} else {
-				items.put("status", "failure");
-				items.put("message", "Invalid credentials");
+				items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
+				items.put(JsonResponse.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
 				return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 			}
 		} catch (Exception e) {
 			logger.info("Error :: " + CLASS_NAME + " :: login method", e);
-			items.put("status", "failure");
-			items.put("message", "Exception");
+			items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponse.MESSAGE, JsonResponseMessage.EXCEPTION);
 			return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 		}
 	}
