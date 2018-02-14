@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ajahsma.carservice.dao.ApplicationUserDao;
 import com.ajahsma.carservice.dao.EmployeeDao;
@@ -48,16 +49,19 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 	}
 	
 	@Override
+	@Transactional
 	public JsonResponse save(EmployeeDTO employeeDTO, String urlType) 
 	{
 		logger.info("Entering :: " + CLASS_NAME + " :: save method");
 		Map<String, Object> items = new HashMap<>();
 		try {
 			Object userName = applicationUserDao.findByUserName(employeeDTO.getName()+employeeDTO.getGardianName());
-			if(!CarServiceUtils.isNull(userName))
+			System.out.println("username "+userName);
+			
+			/*if(!CarServiceUtils.isNull(userName))
 			{
 				throw new BusinessException(ErrorCodes.UAE.name(), ErrorCodes.UAE.value());
-			}
+			}*/
 			EmployeeTO employeeTO = CarServiceUtils.copyBeanProperties(employeeDTO, EmployeeTO.class);
 			CityTO cityTO = CarServiceUtils.copyBeanProperties(employeeDTO.getCity(), CityTO.class);
 			DesignationTO designationTO = CarServiceUtils.copyBeanProperties(employeeDTO.getDesignation(), DesignationTO.class);
@@ -67,6 +71,7 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 			saveDomain(employeeTO); //Save Employee Details
 			ApplicationUserTO applicationUserTO = new ApplicationUserTO();
 			applicationUserTO.setUserName(employeeTO.getName()+employeeTO.getGardianName());
+			employeeTO.setDob(Calendar.getInstance());
 			applicationUserTO.setPassword(DESEncryptionUtil.encrypt(employeeTO.getDob().toString()));
 			applicationUserTO.setEmployee(employeeTO);
 			applicationUserTO.setCreateBy(employeeTO);

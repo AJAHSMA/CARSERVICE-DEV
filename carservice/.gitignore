@@ -9,7 +9,8 @@ data
 .classpath
 .project
 .settings/
-target/
+*/target/
+*/WEB_INF/
 
 
 /.metadata/
