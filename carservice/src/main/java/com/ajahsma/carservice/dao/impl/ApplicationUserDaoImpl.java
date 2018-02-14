@@ -2,6 +2,7 @@ package com.ajahsma.carservice.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -19,23 +20,27 @@ public class ApplicationUserDaoImpl extends DefaultDaoImpl implements Applicatio
 
 	@Override
 	public List<ApplicationUserTO> login(ApplicationUserTO applicationUserTO) {
-
-		List<ApplicationUserTO> list = getSession().createCriteria(ApplicationUserTO.class, "applicationuser")
-				.add(Restrictions.eq("applicationuser.userName", applicationUserTO.getUserName())).list();
-		return list;
+		
+		Criteria criteria = createCriteria(applicationUserTO.getClass());
+		criteria.add(Restrictions.eq("userName", applicationUserTO.getUserName()));
+		
+		return criteria.list();
+		
 	}
 
 	@Override
 	public Object findByUserName(String userName) 
 	{
-		//Hql query is not working	
-		/*Query query = null;
-		String hqlQuery = "SELECT applicationuser FROM ApplicationUserTO applicationuser where applicationuser.userName=:userName";
-		query = getSession().createQuery(hqlQuery);
+		Query query = null;
+		
+		String hqlQuery = "SELECT applicationuser FROM ApplicationUser applicationuser where applicationuser.userName=:userName";
+		
+		query = createQuery(hqlQuery);
+		
 		query.setParameter("userName", userName);
-		return query.uniqueResult();*/
-	
-		return getSession().createCriteria(ApplicationUserTO.class, "applicationuser").add(Restrictions.eq("applicationuser.userName", userName)).uniqueResult();
+		
+		return query.uniqueResult();
+
 	}
 
 }

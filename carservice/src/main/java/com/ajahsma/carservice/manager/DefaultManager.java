@@ -15,7 +15,7 @@ public interface DefaultManager {
 	
 	Domain createNewTransientDomain(String domainClassName, Boolean isSearchMode) throws Exception;
 	
-	Long saveDomain(Domain domain);
+	Serializable saveDomain(Domain domain);
 	
 	void saveAll(List<Domain> domains);
 	
@@ -46,4 +46,6 @@ public interface DefaultManager {
 	public Domain get(Class<? extends Domain> domainClass, Serializable id, String nestedPathToInitialize);
 
 	public Domain get(Class<? extends Domain> domainClass, Serializable id, String[] nestedPathsToInitialize);
+	
+
 }

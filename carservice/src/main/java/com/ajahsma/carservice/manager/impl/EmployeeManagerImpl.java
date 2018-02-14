@@ -15,6 +15,7 @@ import com.ajahsma.carservice.dto.EmployeeDTO;
 import com.ajahsma.carservice.enumeration.ErrorCodes;
 import com.ajahsma.carservice.exception.BusinessException;
 import com.ajahsma.carservice.json.JsonResponse;
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.EmployeeManager;
 import com.ajahsma.carservice.model.ApplicationUserTO;
 import com.ajahsma.carservice.model.CityTO;
@@ -79,15 +80,17 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 			applicationUserTO.setIsActive(true);
 			applicationUserTO.setLoginAttempts(0);
 			saveDomain(applicationUserTO);
-			items.put("status", "success");
-			items.put("message", "Employee created successfully");
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_EMPLOYEE_CREATED_SUCCESSFULLY);
+
 			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 			
 		} catch (Exception e) {
 			
 			logger.info("Error :: " + CLASS_NAME + " :: save method", e);
-			items.put("status", "failure");
-			items.put("message", "Exception");
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.EXCEPTION);
 			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 		}
 	}
