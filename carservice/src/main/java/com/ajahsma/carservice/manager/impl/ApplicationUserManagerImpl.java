@@ -49,8 +49,8 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 				ApplicationUserTO appUserTO = applicationUser.get(0);
 				if (appUserTO.getLoginAttempts() == 5 || appUserTO.getIsActive() == false) {
 
-					items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
-					items.put(JsonResponse.MESSAGE, JsonResponseMessage.ERROR_ACCOUNT_LOCKED);
+					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_ACCOUNT_LOCKED);
 
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				}
@@ -67,27 +67,27 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 					cityDTO.setState(stateDTO);
 					employeeDTO.setCity(cityDTO);
 					
-					items.put(JsonResponse.STATUS, JsonResponseMessage.SUCCESS);
-					items.put(JsonResponse.MESSAGE, JsonResponseMessage.INFO_LOGGED_IN_SUCCESSFULLY);
-					items.put(JsonResponse.DATA, employeeDTO);
+					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_LOGGED_IN_SUCCESSFULLY);
+					items.put(JsonResponseMessage.DATA, employeeDTO);
 					
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				} else {
 					appUserTO.setLoginAttempts(appUserTO.getLoginAttempts() + 1);
 					applicationUserDao.updateDomain(appUserTO);
-					items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
-					items.put(JsonResponse.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
+					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				}
 			} else {
-				items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
-				items.put(JsonResponse.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
+				items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+				items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
 				return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 			}
 		} catch (Exception e) {
 			logger.info("Error :: " + CLASS_NAME + " :: login method", e);
-			items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
-			items.put(JsonResponse.MESSAGE, JsonResponseMessage.EXCEPTION);
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.EXCEPTION);
 			return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 		}
 	}

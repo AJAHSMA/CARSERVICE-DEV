@@ -2,10 +2,6 @@ package com.ajahsma.carservice.json;
 
 public class JsonResponse {
 
-	public static final String STATUS = "status";
-	public static final String MESSAGE = "message";
-	public static final String DATA = "date";
-	
 	public JsonResponse(Jsonaapi jsonaapi, Data data) {
 		super();
 		this.jsonaapi = jsonaapi;

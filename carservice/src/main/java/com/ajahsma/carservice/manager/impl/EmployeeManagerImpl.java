@@ -76,16 +76,16 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 			applicationUserTO.setLoginAttempts(0);
 			saveDomain(applicationUserTO);
 
-			items.put(JsonResponse.STATUS, JsonResponseMessage.SUCCESS);
-			items.put(JsonResponse.MESSAGE, JsonResponseMessage.INFO_EMPLOYEE_CREATED_SUCCESSFULLY);
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_EMPLOYEE_CREATED_SUCCESSFULLY);
 
 			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 			
 		} catch (Exception e) {
 			
 			logger.info("Error :: " + CLASS_NAME + " :: save method", e);
-			items.put(JsonResponse.STATUS, JsonResponseMessage.FAILURE);
-			items.put(JsonResponse.MESSAGE, JsonResponseMessage.EXCEPTION);
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.EXCEPTION);
 			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 		}
 	}
