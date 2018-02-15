@@ -11,10 +11,14 @@ public class JsonResponseMessage {
 	public static final String EXCEPTION = "Exception";
 
 	// ----------------- INFO -----------------------------------
-	public static final String INFO_EMPLOYEE_CREATED_SUCCESSFULLY = "Employee created successfully";
-	public static final String INFO_LOGGED_IN_SUCCESSFULLY = "logged in successfully";
+	public static final String INFO_MESSAGE_CREATED_SUCCESSFULLY = "{0} created successfully";
+	public static final String INFO_MESSAGE_EMPLOYEE_CREATED_SUCCESSFULLY = "Employee created successfully";
+	public static final String INFO_MESSAGE_LOGGED_IN_SUCCESSFULLY = "logged in successfully";
 	
 	// ----------------- ERROR -----------------------------------
-	public static final String ERROR_ACCOUNT_LOCKED = "Account locked";
-	public static final String ERROR_INVALID_CREDENTIALS = "Invalid credentials";
+	public static final String EXCEPTION_MESSAGE = "Exception: {0}";
+	
+	// ----------------- EXCEPTION -----------------------------------
+	public static final String ERROR_MESSAGE_ACCOUNT_LOCKED = "Account locked";
+	public static final String ERROR_MESSAGE_INVALID_CREDENTIALS = "Invalid credentials";
 }

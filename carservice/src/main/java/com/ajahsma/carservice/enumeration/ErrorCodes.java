@@ -7,6 +7,7 @@ package com.ajahsma.carservice.enumeration;
 public enum ErrorCodes 
 {
 	UAE("Username already exists"),
+	VALIDATION_FAILURE("Validation Failed"),
 	EAE("Email already exists. please choose different one");
 	
 	private final String value;

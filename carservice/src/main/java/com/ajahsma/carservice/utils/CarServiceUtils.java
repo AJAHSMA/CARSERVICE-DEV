@@ -1,12 +1,14 @@
 package com.ajahsma.carservice.utils;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.model.Domain;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -75,6 +77,10 @@ public class CarServiceUtils {
 		Destination destination = (Destination) Destination.newInstance();
 		BeanUtils.copyProperties(source, destination);
 		return destination;
+	}
+	
+	public static String createMessage(String message, String... placeHolders) {
+		return MessageFormat.format(message, placeHolders);
 	}
 
 }
