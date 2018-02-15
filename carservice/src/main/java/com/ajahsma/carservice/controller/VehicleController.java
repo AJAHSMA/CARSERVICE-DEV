@@ -20,7 +20,6 @@ import com.ajahsma.carservice.enumeration.ErrorCodes;
 import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.json.JsonResponseMessage;
-import com.ajahsma.carservice.manager.CarModelManager;
 import com.ajahsma.carservice.manager.VehicleManager;
 import com.ajahsma.carservice.model.VehicleTO;
 import com.ajahsma.carservice.utils.CarServiceUtils;
@@ -36,9 +35,6 @@ public class VehicleController extends AbstractController {
 
 	@Autowired
 	private VehicleManager vehicleManager;
-
-	@Autowired
-	private CarModelManager carModelManager;
 
 	@Override
 	protected VehicleManager getDefaultManager() {
