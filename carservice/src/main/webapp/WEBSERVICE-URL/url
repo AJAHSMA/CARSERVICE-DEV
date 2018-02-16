@@ -25,3 +25,23 @@ http:/localhost:5050/carservice/saveCountry
   "code":"IND",
   "description":"India"
 }
+
+** State service POST Request 
+http:/localhost:5050/carservice/saveState
+{
+  	"code":"KA",
+  	"description":"Karnataka"
+	"country":{
+		"id":1
+	}
+}
+
+** City Registration service POST Request 
+http:/localhost:5050/carservice/saveCity
+{
+  	"code":"BNG",
+  	"description":"Bangalore"
+	"state":{
+		"id":1
+	}
+}
