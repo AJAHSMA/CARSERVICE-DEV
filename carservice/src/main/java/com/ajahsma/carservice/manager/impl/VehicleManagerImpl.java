@@ -34,7 +34,7 @@ public class VehicleManagerImpl extends DefaultManagerImpl implements VehicleMan
 	public VehicleTO convertVehicleDTOToVehocleTO(VehicleDTO vehicleDTO) throws InstantiationException, IllegalAccessException {
 		VehicleTO vehicleTO = CarServiceUtils.copyBeanProperties(vehicleDTO, VehicleTO.class);
 		CarModelTO carModelTO = null;
-		;
+		
 		if (vehicleDTO.getCarModel() != null && vehicleDTO.getCarModel().getId() != null) {
 			carModelTO = (CarModelTO) carModelManager.getDomain(CarModelTO.class, vehicleDTO.getCarModel().getId());
 
@@ -43,6 +43,4 @@ public class VehicleManagerImpl extends DefaultManagerImpl implements VehicleMan
 
 		return vehicleTO;
 	}
-
-	
 }

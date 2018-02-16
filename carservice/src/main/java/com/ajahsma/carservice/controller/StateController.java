@@ -8,22 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.StateDTO;
+import com.ajahsma.carservice.enumeration.ErrorCodes;
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.JsonResponse;
-import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.StateManager;
 import com.ajahsma.carservice.model.StateTO;
+import com.ajahsma.carservice.utils.CarServiceUtils;
 import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
  */
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @Controller
 @RequestMapping(value = "/carservice")
 public class StateController extends AbstractController {
@@ -32,7 +38,7 @@ public class StateController extends AbstractController {
 	private StateManager stateManager;
 
 	@Override
-	protected DefaultManager getDefaultManager() {
+	protected StateManager getDefaultManager() {
 		return this.stateManager;
 	}
 
@@ -63,10 +69,27 @@ public class StateController extends AbstractController {
 
 	@RequestMapping(value = "/saveState", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	JsonResponse save(@RequestBody StateTO state) {
-		getDefaultManager().saveDomain(state);
+	JsonResponse save(@RequestBody StateDTO stateDTO) {
+		String urlType = "carservice/saveState";
+
 		Map<String, Object> items = new HashMap<>();
-		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+		try {
+
+			StateTO stateTO = getDefaultManager().convertStateDTOToStateTO(stateDTO);
+
+			saveDomain(stateTO);
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "State"));
+
+		} catch (Exception e) {
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
+
+		}
+
+		return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 	}
 
 	@RequestMapping(value = "/saveAllStates", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,5 +109,30 @@ public class StateController extends AbstractController {
 	@ResponseBody
 	public List<StateTO> getAllStates() {
 		return (List) getDefaultManager().getAllDomain(StateTO.class);
+	}
+	
+	@Override
+	protected void validateDomain() throws ValidationFailureException {
+		boolean validateSuccess = true;
+
+		StateTO stateTO = (StateTO) getDomain();
+		StringBuilder stringBuilder = new StringBuilder("");
+
+		if (StringUtils.isEmpty(stateTO.getCode())) {
+			validateSuccess = false;
+			stringBuilder.append("Code is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(stateTO.getDescription())) {
+			validateSuccess = false;
+			stringBuilder.append("Description mandatory").append(", ");
+		}
+		if (stateTO.getCountry() == null) {
+			validateSuccess = false;
+			stringBuilder.append("Country is mandatory").append(", ");
+		}
+
+		if (!validateSuccess) {
+			throw new ValidationFailureException(ErrorCodes.VALIDATION_FAILURE.name(), stringBuilder.toString());
+		}
 	}
 }

@@ -29,6 +29,7 @@ import com.ajahsma.carservice.utils.JSONHelperUtil;
  * @author SHARAN A
  */
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @Controller
 @RequestMapping(value = "/carservice")
 public class VehicleController extends AbstractController {
@@ -145,7 +146,6 @@ public class VehicleController extends AbstractController {
 		if (!validateSuccess) {
 			throw new ValidationFailureException(ErrorCodes.VALIDATION_FAILURE.name(), stringBuilder.toString());
 		}
-
 	}
 
 }
