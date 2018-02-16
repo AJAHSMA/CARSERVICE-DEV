@@ -6,7 +6,7 @@ http:/localhost:5050/carservice/login
   "userName":"sharan",
   "password":"shara"
 }
-
+---------------------------------------------------------------------------------------------
 ** Vehicle Registration service POST Request 
 http:/localhost:5050/carservice/saveVehicle
 {
@@ -18,14 +18,14 @@ http:/localhost:5050/carservice/saveVehicle
 	},
 	"fuel":"Petrol"
 }
-
+---------------------------------------------------------------------------------------------
 ** Country service POST Request
 http:/localhost:5050/carservice/saveCountry
 {
   "code":"IND",
   "description":"India"
 }
-
+---------------------------------------------------------------------------------------------
 ** State service POST Request 
 http:/localhost:5050/carservice/saveState
 {
@@ -35,7 +35,7 @@ http:/localhost:5050/carservice/saveState
 		"id":1
 	}
 }
-
+---------------------------------------------------------------------------------------------
 ** City Registration service POST Request 
 http:/localhost:5050/carservice/saveCity
 {
