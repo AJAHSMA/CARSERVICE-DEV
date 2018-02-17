@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.ItemDTO;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.ItemManager;
@@ -82,9 +83,12 @@ public class ItemController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", item);
 	}
 
-	@RequestMapping(value = "/getAllItems")
+	@RequestMapping(value = "/getAllNomenclatureItems", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<ItemTO> getAllItems() {
-		return (List) getDefaultManager().getAllDomain(ItemTO.class);
+	public JsonResponse getAllItems() {
+		// return (List) getDefaultManager().getAllDomain(ItemTO.class);
+		String urlType = "/carservice/getAllItems";
+		JsonResponse response = itemManager.getAllNomenclature(urlType);
+		return response;
 	}
 }

@@ -8,12 +8,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.ajahsma.carservice.dao.ApplicationUserDao;
 import com.ajahsma.carservice.dao.EmployeeDao;
 import com.ajahsma.carservice.dto.EmployeeDTO;
 import com.ajahsma.carservice.enumeration.ErrorCodes;
 import com.ajahsma.carservice.exception.BusinessException;
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.ApplicationUserManager;
@@ -55,10 +57,13 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 		logger.info("Entering :: " + CLASS_NAME + " :: save method");
 		Map<String, Object> items = new HashMap<>();
 		try {
-			ApplicationUserTO userName = (ApplicationUserTO) applicationUserManager
-					.findByUserName(employeeDTO.getName() + employeeDTO.getGardianName());
-			System.out.println("username " + userName);
-			if (!CarServiceUtils.isNull(userName)) {
+			validateDomain(employeeDTO);
+			String name = CarServiceUtils.toCamelCase(employeeDTO.getName());
+			String gardianName = CarServiceUtils.toCamelCase(employeeDTO.getGardianName());
+			String userName = name.concat(gardianName);
+			ApplicationUserTO applicatioUser = (ApplicationUserTO) applicationUserManager.findByUserName(userName);
+			System.out.println("username " + applicatioUser);
+			if (!CarServiceUtils.isNull(applicatioUser)) {
 				throw new BusinessException(ErrorCodes.UAE.name(), ErrorCodes.UAE.value());
 			}
 			EmployeeTO employeeTO = CarServiceUtils.copyBeanProperties(employeeDTO, EmployeeTO.class);
@@ -81,19 +86,54 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 			saveDomain(applicationUserTO);
 
 			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
-			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "Employee"));
-			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
-
+			items.put(JsonResponseMessage.MESSAGE,
+					CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "Employee"));
 		} catch (BusinessException exception) {
 			logger.info("Error :: " + CLASS_NAME + " :: save method", exception);
 			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
 			items.put(JsonResponseMessage.MESSAGE, exception.getMessage());
-			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 		} catch (Exception e) {
 			logger.info("Error :: " + CLASS_NAME + " :: save method", e);
 			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
-			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
-			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
+			items.put(JsonResponseMessage.MESSAGE,
+					CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
+		}
+		return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
+	}
+
+	private void validateDomain(EmployeeDTO employeeDTO) throws ValidationFailureException
+	{
+		boolean validateSuccess = true;
+		StringBuilder stringBuilder = new StringBuilder("");
+		if(StringUtils.isEmpty(employeeDTO.getName()))
+		{
+			validateSuccess = false;
+			stringBuilder.append("Name is mandatory").append(", ");
+		}
+		else if(StringUtils.isEmpty(employeeDTO.getGardianName()))
+		{
+			validateSuccess = false;
+			stringBuilder.append("Guardian is mandatory").append(", ");
+		}
+		else if(StringUtils.isEmpty(employeeDTO.getIdProofNo()))
+		{
+			validateSuccess = false;
+			stringBuilder.append("Id proof is mandatory").append(", ");
+		}
+		else if(StringUtils.isEmpty(employeeDTO.getCity().getCode()))
+		{
+			validateSuccess = false;
+			stringBuilder.append("City is mandatory").append(", ");
+		}
+		else if(StringUtils.isEmpty(employeeDTO.getPincode()))
+		{
+			validateSuccess = false;
+			stringBuilder.append("Pincode is mandatory").append(", ");
+		}
+		
+		if(!validateSuccess)
+		{
+			throw new ValidationFailureException(ErrorCodes.VALIDATION_FAILURE.name(), stringBuilder.toString());
 		}
 	}
 }

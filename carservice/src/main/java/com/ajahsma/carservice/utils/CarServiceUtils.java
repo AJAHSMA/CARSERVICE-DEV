@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class CarServiceUtils {
 
 	public static String convertObjectToJson(Domain domain) throws JsonProcessingException {
@@ -24,7 +24,7 @@ public class CarServiceUtils {
 		ObjectMapper mapper = new ObjectMapper();
 
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-	    
+
 		// Convert object to JSON string
 		String jsonInString = mapper.writeValueAsString(domain);
 		System.out.println(jsonInString);
@@ -32,7 +32,8 @@ public class CarServiceUtils {
 		return jsonInString;
 	}
 
-	public static Domain convertJsonToObject(String jsonInString, Class clazz) throws JsonParseException, JsonMappingException, IOException {
+	public static Domain convertJsonToObject(String jsonInString, Class clazz)
+			throws JsonParseException, JsonMappingException, IOException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
@@ -41,46 +42,53 @@ public class CarServiceUtils {
 		Domain domain = (Domain) mapper.readValue(jsonInString, clazz);
 		return domain;
 	}
-	
-	public static boolean isListNotNullAndEmpty(List list)
-	{
+
+	public static boolean isListNotNullAndEmpty(List list) {
 		return (list != null && !list.isEmpty());
 	}
-	
-	public static boolean isNull(Object object)
-	{
+
+	public static boolean isNull(Object object) {
 		return object == null;
 	}
-	
-	public static boolean isNotNull(Object object)
-	{
+
+	public static boolean isNotNull(Object object) {
 		return object != null;
 	}
-	
+
 	/**
-	 * Return true if the supplied Collection is null or empty. Otherwise, return false.
+	 * Return true if the supplied Collection is null or empty. Otherwise,
+	 * return false.
 	 */
-	public static boolean isEmpty(Collection list)
-	{
+	public static boolean isEmpty(Collection list) {
 		return CollectionUtils.isEmpty(list);
 	}
-	
+
 	/**
-	 * Return true if the supplied Collection has atleast one value. Otherwise, return false.
+	 * Return true if the supplied Collection has atleast one value. Otherwise,
+	 * return false.
 	 */
-	public static boolean isNotEmpty(Collection list)
-	{
+	public static boolean isNotEmpty(Collection list) {
 		return (!CollectionUtils.isEmpty(list));
 	}
-	
-	public static <Source, Destination> Destination copyBeanProperties(Source source, Class Destination) throws InstantiationException, IllegalAccessException{
+
+	public static <Source, Destination> Destination copyBeanProperties(Source source, Class Destination)
+			throws InstantiationException, IllegalAccessException {
 		Destination destination = (Destination) Destination.newInstance();
 		BeanUtils.copyProperties(source, destination);
 		return destination;
 	}
-	
+
 	public static String createMessage(String message, String... placeHolders) {
 		return MessageFormat.format(message, placeHolders);
+	}
+
+	public static String toCamelCase(String name) {
+		char firstChar = name.charAt(0);
+		StringBuilder result = new StringBuilder("");
+		for (int i = 1; i < name.length(); i++) {
+			result = result.append(Character.toLowerCase(name.charAt(i)));
+		}
+		return result.toString();
 	}
 
 }

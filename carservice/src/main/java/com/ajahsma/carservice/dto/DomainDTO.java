@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @author DEVU I
  */
-public interface Domain extends Serializable {
+public interface DomainDTO extends Serializable {
 
 	boolean equals(Object other);
 

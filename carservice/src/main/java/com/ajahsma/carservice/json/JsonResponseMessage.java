@@ -21,4 +21,8 @@ public class JsonResponseMessage {
 	// ----------------- EXCEPTION -----------------------------------
 	public static final String ERROR_MESSAGE_ACCOUNT_LOCKED = "Account locked";
 	public static final String ERROR_MESSAGE_INVALID_CREDENTIALS = "Invalid credentials";
+	
+	// ----------------- DATA -----------------------------------------
+	public static final String DATA_FOUND = "Data found";
+	public static final String NO_DATA_FOUND = "No data found";
 }
