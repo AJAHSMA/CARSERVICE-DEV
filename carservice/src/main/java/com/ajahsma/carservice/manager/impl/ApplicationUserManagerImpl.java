@@ -57,20 +57,25 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 				if ((applicationUserTO.getPassword()).equals(appUserTO.getPassword())) {
 					appUserTO.setLoginAttempts(0);
 					applicationUserDao.updateDomain(appUserTO);
-					EmployeeDTO employeeDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee(), EmployeeDTO.class);
-					DesignationDTO designationDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee().getDesignation(), DesignationDTO.class);
-					CountryDTO countryDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee().getCity().getState().getCountry(), CountryDTO.class);
-					StateDTO stateDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee().getCity().getState(), StateDTO.class);
-					CityDTO cityDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee().getCity(), CityDTO.class);
+					EmployeeDTO employeeDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee(),
+							EmployeeDTO.class);
+					DesignationDTO designationDTO = CarServiceUtils
+							.copyBeanProperties(appUserTO.getEmployee().getDesignation(), DesignationDTO.class);
+					CountryDTO countryDTO = CarServiceUtils.copyBeanProperties(
+							appUserTO.getEmployee().getCity().getState().getCountry(), CountryDTO.class);
+					StateDTO stateDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee().getCity().getState(),
+							StateDTO.class);
+					CityDTO cityDTO = CarServiceUtils.copyBeanProperties(appUserTO.getEmployee().getCity(),
+							CityDTO.class);
 					employeeDTO.setDesignation(designationDTO);
 					stateDTO.setCountry(countryDTO);
 					cityDTO.setState(stateDTO);
 					employeeDTO.setCity(cityDTO);
-					
+
 					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
 					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_LOGGED_IN_SUCCESSFULLY);
 					items.put(JsonResponseMessage.DATA, employeeDTO);
-					
+
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				} else {
 					appUserTO.setLoginAttempts(appUserTO.getLoginAttempts() + 1);
@@ -90,6 +95,11 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.EXCEPTION);
 			return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 		}
+	}
+
+	@Override
+	public Object findByUserName(String userName) {
+		return applicationUserDao.findByUserName(userName);
 	}
 
 }
