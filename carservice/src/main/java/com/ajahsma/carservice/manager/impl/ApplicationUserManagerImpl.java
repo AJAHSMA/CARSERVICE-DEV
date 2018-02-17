@@ -15,13 +15,11 @@ import com.ajahsma.carservice.dto.CountryDTO;
 import com.ajahsma.carservice.dto.DesignationDTO;
 import com.ajahsma.carservice.dto.EmployeeDTO;
 import com.ajahsma.carservice.dto.StateDTO;
-import com.ajahsma.carservice.json.Data;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.ApplicationUserManager;
 import com.ajahsma.carservice.model.ApplicationUserTO;
 import com.ajahsma.carservice.utils.CarServiceUtils;
-import com.ajahsma.carservice.utils.DESEncryptionUtil;
 import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
@@ -50,7 +48,7 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 				if (appUserTO.getLoginAttempts() == 5 || appUserTO.getIsActive() == false) {
 
 					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
-					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_ACCOUNT_LOCKED);
+					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_MESSAGE_ACCOUNT_LOCKED);
 
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				}
@@ -73,7 +71,7 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 					employeeDTO.setCity(cityDTO);
 
 					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
-					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_LOGGED_IN_SUCCESSFULLY);
+					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_MESSAGE_LOGGED_IN_SUCCESSFULLY);
 					items.put(JsonResponseMessage.DATA, employeeDTO);
 
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
@@ -81,12 +79,12 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 					appUserTO.setLoginAttempts(appUserTO.getLoginAttempts() + 1);
 					applicationUserDao.updateDomain(appUserTO);
 					items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
-					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
+					items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_MESSAGE_INVALID_CREDENTIALS);
 					return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 				}
 			} else {
 				items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
-				items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_INVALID_CREDENTIALS);
+				items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.ERROR_MESSAGE_INVALID_CREDENTIALS);
 				return JSONHelperUtil.getJsonResponse("1.0", "/employee/login", items);
 			}
 		} catch (Exception e) {
@@ -98,7 +96,7 @@ public class ApplicationUserManagerImpl extends DefaultManagerImpl implements Ap
 	}
 
 	@Override
-	public Object findByUserName(String userName) {
+	public ApplicationUserTO findByUserName(String userName) {
 		return applicationUserDao.findByUserName(userName);
 	}
 

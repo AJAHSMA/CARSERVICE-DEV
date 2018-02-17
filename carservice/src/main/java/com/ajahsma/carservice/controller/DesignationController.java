@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.JsonResponse;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.manager.DesignationManager;
@@ -62,7 +63,12 @@ public class DesignationController extends AbstractController {
 	@RequestMapping(value = "/saveDesignation", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse save(@RequestBody DesignationTO designation) {
-		saveDomain(designation);
+		try {
+			saveDomain(designation);
+		} catch (ValidationFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}

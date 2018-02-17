@@ -11,6 +11,6 @@ public interface ApplicationUserDao extends DefaultDao {
 
 	List<ApplicationUserTO> login(ApplicationUserTO applicationUserTO);
 
-	Object findByUserName(String string);
+	ApplicationUserTO findByUserName(String string);
 
 }

@@ -20,26 +20,25 @@ public class ApplicationUserDaoImpl extends DefaultDaoImpl implements Applicatio
 
 	@Override
 	public List<ApplicationUserTO> login(ApplicationUserTO applicationUserTO) {
-		
+
 		Criteria criteria = createCriteria(applicationUserTO.getClass());
 		criteria.add(Restrictions.eq("userName", applicationUserTO.getUserName()));
-		
+
 		return criteria.list();
-		
+
 	}
 
 	@Override
-	public Object findByUserName(String userName) 
-	{
+	public ApplicationUserTO findByUserName(String userName) {
 		Query query = null;
-		
+
 		String hqlQuery = "SELECT applicationuser FROM ApplicationUser applicationuser where applicationuser.userName=:userName";
-		
+
 		query = createQuery(hqlQuery);
-		
+
 		query.setParameter("userName", userName);
-		
-		return query.uniqueResult();
+
+		return (ApplicationUserTO) query.uniqueResult();
 
 	}
 

@@ -7,7 +7,6 @@ package com.ajahsma.carservice.dto;
 public class CountryDTO extends AbstractIdDomain {
 
 	private String code;
-
 	private String description;
 
 	public String getCode() {

@@ -2,9 +2,9 @@ package com.ajahsma.carservice.controller;
 
 import java.util.List;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.util.CollectionUtils;
 
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.model.Domain;
 
@@ -20,19 +20,17 @@ public abstract class AbstractController {
 
 	abstract protected DefaultManager getDefaultManager();
 	
-	protected void saveDomain(Domain domain) {
+	protected void saveDomain(Domain domain) throws ValidationFailureException {
 		beforeProcess(domain);
-		if(BooleanUtils.isTrue(validateDomain())) {
-			getDefaultManager().saveDomain(domain);
-		}
+		validateDomain();
+		getDefaultManager().saveDomain(domain);
 		
 	}
 	
-	protected void updateDomain(Domain domain) {
+	protected void updateDomain(Domain domain) throws ValidationFailureException {
 		beforeProcess(domain);
-		if(BooleanUtils.isTrue(validateDomain())) {
-			getDefaultManager().updateDomain(domain);;
-		}
+		validateDomain();
+		getDefaultManager().updateDomain(domain);;
 	}
 	
 	protected void deleteDomain(Class<? extends Domain> domainClass, Long id) {
@@ -40,9 +38,7 @@ public abstract class AbstractController {
 		Domain domain = getDefaultManager().getDomain(domainClass, id);
 
 		beforeProcess(domain);
-		if(BooleanUtils.isTrue(validateDomain())) {
-			getDefaultManager().deleteDomain(domain);;
-		}
+		getDefaultManager().deleteDomain(domain);;
 	}
 	
 	protected void saveAllDomains(List<? extends Domain> domains) {
@@ -87,8 +83,7 @@ public abstract class AbstractController {
 
 
 	
-	protected Boolean validateDomain() {
-		return true;
+	protected void validateDomain() throws ValidationFailureException {
 	}
 
 	protected void beforeProcess(Domain domain) {

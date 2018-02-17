@@ -81,7 +81,7 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 			saveDomain(applicationUserTO);
 
 			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
-			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.INFO_EMPLOYEE_CREATED_SUCCESSFULLY);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "Employee"));
 			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 
 		} catch (BusinessException exception) {
@@ -92,7 +92,7 @@ public class EmployeeManagerImpl extends DefaultManagerImpl implements EmployeeM
 		} catch (Exception e) {
 			logger.info("Error :: " + CLASS_NAME + " :: save method", e);
 			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
-			items.put(JsonResponseMessage.MESSAGE, JsonResponseMessage.EXCEPTION);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
 			return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 		}
 	}

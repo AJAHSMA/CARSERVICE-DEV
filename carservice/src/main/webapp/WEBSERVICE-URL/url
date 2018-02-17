@@ -1,8 +1,47 @@
 # URLS
 
-Login service POST Request 
+** Login service POST Request 
 http:/localhost:5050/carservice/login
 {
   "userName":"sharan",
   "password":"shara"
+}
+---------------------------------------------------------------------------------------------
+** Vehicle Registration service POST Request 
+http:/localhost:5050/carservice/saveVehicle
+{
+	"registerNo":"KA01AA0001",
+	"engineNo":"1001",
+	"chessisNo":"A1001",
+	"carModel":{
+		"id":1
+	},
+	"fuel":"Petrol"
+}
+---------------------------------------------------------------------------------------------
+** Country service POST Request
+http:/localhost:5050/carservice/saveCountry
+{
+  "code":"IND",
+  "description":"India"
+}
+---------------------------------------------------------------------------------------------
+** State service POST Request 
+http:/localhost:5050/carservice/saveState
+{
+  	"code":"KA",
+  	"description":"Karnataka"
+	"country":{
+		"id":1
+	}
+}
+---------------------------------------------------------------------------------------------
+** City Registration service POST Request 
+http:/localhost:5050/carservice/saveCity
+{
+  	"code":"BNG",
+  	"description":"Bangalore"
+	"state":{
+		"id":1
+	}
 }
