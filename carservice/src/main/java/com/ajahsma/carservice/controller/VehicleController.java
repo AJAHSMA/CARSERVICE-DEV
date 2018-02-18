@@ -71,14 +71,14 @@ public class VehicleController extends AbstractController {
 
 	@RequestMapping(value = "/saveVehicle", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	JsonResponse save(@RequestBody VehicleDTO vehicleDTO) {
+	JsonResponse save(@RequestBody VehicleDTO vehicleDto) {
 
 		String urlType = "carservice/saveVehicle";
 
 		Map<String, Object> items = new HashMap<>();
 		try {
 
-			VehicleTO vehicleTO = getDefaultManager().convertVehicleDTOToVehicleTO(vehicleDTO);
+			VehicleTO vehicleTO = getDefaultManager().convertVehicleDTOToVehicleTO(vehicleDto);
 
 			saveDomain(vehicleTO);
 

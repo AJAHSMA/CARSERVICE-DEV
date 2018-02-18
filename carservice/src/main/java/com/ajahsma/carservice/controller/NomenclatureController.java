@@ -8,22 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.NomenclatureDTO;
+import com.ajahsma.carservice.enumeration.ErrorCodes;
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.JsonResponse;
-import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.NomenclatureManager;
 import com.ajahsma.carservice.model.NomenclatureTO;
+import com.ajahsma.carservice.utils.CarServiceUtils;
 import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
  */
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @Controller
 @RequestMapping(value = "/carservice")
 public class NomenclatureController extends AbstractController {
@@ -32,7 +38,7 @@ public class NomenclatureController extends AbstractController {
 	private NomenclatureManager nomenclatureManager;
 
 	@Override
-	protected DefaultManager getDefaultManager() {
+	protected NomenclatureManager getDefaultManager() {
 		return this.nomenclatureManager;
 	}
 
@@ -63,10 +69,27 @@ public class NomenclatureController extends AbstractController {
 
 	@RequestMapping(value = "/saveNomenclature", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	JsonResponse save(@RequestBody NomenclatureTO nomenclature) {
-		getDefaultManager().saveDomain(nomenclature);
+	JsonResponse save(@RequestBody NomenclatureDTO nomenclatureDto) {
+		String urlType = "carservice/saveNomenclature";
+
 		Map<String, Object> items = new HashMap<>();
-		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+		try {
+
+			NomenclatureTO nomenclatureTO = getDefaultManager().convertNomenclatureDTOToNomenclatureTO(nomenclatureDto);
+
+			saveDomain(nomenclatureTO);
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "Nomenclature"));
+
+		} catch (Exception e) {
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
+
+		}
+
+		return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 	}
 
 	@RequestMapping(value = "/saveAllNomenclatures", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,4 +110,29 @@ public class NomenclatureController extends AbstractController {
 	public List<NomenclatureTO> getAllNomenclatures() {
 		return (List) getDefaultManager().getAllDomain(NomenclatureTO.class);
 	}
+
+	@Override
+	protected void validateDomain() throws ValidationFailureException {
+		boolean validateSuccess = true;
+
+		NomenclatureTO nomenclatureTO = (NomenclatureTO) getDomain();
+		StringBuilder stringBuilder = new StringBuilder("");
+
+		if (StringUtils.isEmpty(nomenclatureTO.getCode())) {
+			validateSuccess = false;
+			stringBuilder.append("Code is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(nomenclatureTO.getName())) {
+			validateSuccess = false;
+			stringBuilder.append("Name is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(nomenclatureTO.getCheckType())) {
+			validateSuccess = false;
+			stringBuilder.append("Check type is mandatory").append(", ");
+		}
+		if (!validateSuccess) {
+			throw new ValidationFailureException(ErrorCodes.VALIDATION_FAILURE.name(), stringBuilder.toString());
+		}
+	}
+	
 }
