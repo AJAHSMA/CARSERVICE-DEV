@@ -14,15 +14,11 @@ public class VehicleCustomerRegistrationDTO extends AbstractIdDomain {
 	private String jobCardNo;
 	private Calendar deliveryDateTime;
 	private Calendar currentDatetime;
-	private AttachmentDTO customerSignature;
+//	private AttachmentDTO customerSignature;
 
 	private VehicleDTO vehicle;
 	private CustomerDTO customer;
 	private InventoryDTO inventory;
-	// private InsideHood insideHood;
-	// private InsideCar insideCar;
-	// private OutsideCar outsideCar;
-	// private UnderBody unclearBody;
 
 	private Set<CustomerDemandedRepairDTO> customerDemandedRepairs;
 
@@ -70,13 +66,13 @@ public class VehicleCustomerRegistrationDTO extends AbstractIdDomain {
 		this.currentDatetime = currentDatetime;
 	}
 
-	public AttachmentDTO getCustomerSignature() {
+	/*public AttachmentDTO getCustomerSignature() {
 		return customerSignature;
 	}
 
 	public void setCustomerSignature(AttachmentDTO customerSignature) {
 		this.customerSignature = customerSignature;
-	}
+	}*/
 
 	public VehicleDTO getVehicle() {
 		return vehicle;

@@ -78,7 +78,7 @@ public class VehicleController extends AbstractController {
 		Map<String, Object> items = new HashMap<>();
 		try {
 
-			VehicleTO vehicleTO = getDefaultManager().convertVehicleDTOToVehocleTO(vehicleDTO);
+			VehicleTO vehicleTO = getDefaultManager().convertVehicleDTOToVehicleTO(vehicleDTO);
 
 			saveDomain(vehicleTO);
 

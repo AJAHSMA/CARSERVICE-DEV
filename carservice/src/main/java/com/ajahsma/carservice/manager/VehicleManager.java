@@ -9,6 +9,6 @@ import com.ajahsma.carservice.model.VehicleTO;
 
 public interface VehicleManager extends DefaultManager {
 
-	public VehicleTO convertVehicleDTOToVehocleTO(VehicleDTO vehicleDTO) throws InstantiationException, IllegalAccessException;
+	public VehicleTO convertVehicleDTOToVehicleTO(VehicleDTO vehicleDTO) throws InstantiationException, IllegalAccessException;
 	
 }

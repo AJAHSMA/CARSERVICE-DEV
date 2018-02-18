@@ -49,3 +49,12 @@ http:/localhost:5050/carservice/saveCity
 
 ** Display all Nomenclature items GET Request
 http:/localhost:5050/carservice/getAllNomenclatureItems
+
+-----------------------------------------------------------------------------------------------
+** Vehicle Customer Registration POST Request
+http:/localhost:5050/carservice/saveVehicleCustomerRegistration
+
+-----------------------------------------------------------------------------------------------
+** Customer Registration POST Request
+http:/localhost:5050/carservice/saveCustomer
+

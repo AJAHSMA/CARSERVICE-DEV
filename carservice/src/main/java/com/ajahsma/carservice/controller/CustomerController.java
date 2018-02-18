@@ -8,19 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.CustomerDTO;
+import com.ajahsma.carservice.enumeration.ErrorCodes;
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.Data;
 import com.ajahsma.carservice.json.JsonResponse;
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.json.Jsonaapi;
 import com.ajahsma.carservice.manager.CustomerManager;
-import com.ajahsma.carservice.manager.DefaultManager;
 import com.ajahsma.carservice.model.CustomerTO;
 import com.ajahsma.carservice.model.Domain;
+import com.ajahsma.carservice.utils.CarServiceUtils;
 import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
@@ -35,36 +40,33 @@ public class CustomerController extends AbstractController {
 	private CustomerManager customerManager;
 
 	@Override
-	protected DefaultManager getDefaultManager() {
+	protected CustomerManager getDefaultManager() {
 		return this.customerManager;
 	}
 
 	@RequestMapping(value = "/saveCustomer", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public JsonResponse save(@RequestBody CustomerTO customer) {
+	public JsonResponse save(@RequestBody CustomerDTO customerDto) {
+		String urlType = "carservice/saveCustomer";
+
+		Map<String, Object> items = new HashMap<>();
 		try {
-			getDefaultManager().saveDomain(customer);
-			Map<String, String> model = new HashMap<>();
-			model.put("status", "success!");
-			model.put("message", "Data succesfully saved!");
-			Data data = new Data();
-			data.setItems(model);
-			data.setType("saveCustomer");
-			Jsonaapi jsonaapi = new Jsonaapi();
-			jsonaapi.setVersion("1.0");
-			JsonResponse jsonResponse = new JsonResponse(jsonaapi, data);
-			return jsonResponse;
+
+			CustomerTO customerTO = getDefaultManager().convertCustomerDTOToCustomerTO(customerDto);
+
+			saveDomain(customerTO);
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "Customer"));
+
 		} catch (Exception e) {
-			Map<String, String> model = new HashMap<>();
-			model.put("status", "failure!");
-			model.put("message", "error while saving!");
-			Data data = new Data();
-			data.setItems(model);
-			Jsonaapi jsonaapi = new Jsonaapi();
-			jsonaapi.setVersion("1.0");
-			JsonResponse jsonResponse = new JsonResponse(jsonaapi, data);
-			return jsonResponse;
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
+
 		}
+
+		return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 
 	}
 
@@ -117,6 +119,47 @@ public class CustomerController extends AbstractController {
 		}
 		Map<String, Object> items = new HashMap<>();
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+	}
+
+	@Override
+	protected void validateDomain() throws ValidationFailureException {
+		boolean validateSuccess = true;
+
+		CustomerTO customerTO = (CustomerTO) getDomain();
+		StringBuilder stringBuilder = new StringBuilder("");
+
+		if (StringUtils.isEmpty(customerTO.getName())) {
+			validateSuccess = false;
+			stringBuilder.append("Name is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(customerTO.getPhoneNo())) {
+			validateSuccess = false;
+			stringBuilder.append("Phone no mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(customerTO.getAddress())) {
+			validateSuccess = false;
+			stringBuilder.append("Address is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(customerTO.getCity())) {
+			validateSuccess = false;
+			stringBuilder.append("City is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(customerTO.getPincode())) {
+			validateSuccess = false;
+			stringBuilder.append("Pincode is mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(customerTO.getIdProof())) {
+			validateSuccess = false;
+			stringBuilder.append("Id proof mandatory").append(", ");
+		}
+		if (StringUtils.isEmpty(customerTO.getIdProofNo())) {
+			validateSuccess = false;
+			stringBuilder.append("Id proof no mandatory").append(", ");
+		}
+
+		if (!validateSuccess) {
+			throw new ValidationFailureException(ErrorCodes.VALIDATION_FAILURE.name(), stringBuilder.toString());
+		}
 	}
 
 }

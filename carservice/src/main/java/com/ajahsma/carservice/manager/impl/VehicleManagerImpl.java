@@ -31,7 +31,7 @@ public class VehicleManagerImpl extends DefaultManagerImpl implements VehicleMan
 	}
 
 	@Override
-	public VehicleTO convertVehicleDTOToVehocleTO(VehicleDTO vehicleDTO) throws InstantiationException, IllegalAccessException {
+	public VehicleTO convertVehicleDTOToVehicleTO(VehicleDTO vehicleDTO) throws InstantiationException, IllegalAccessException {
 		VehicleTO vehicleTO = CarServiceUtils.copyBeanProperties(vehicleDTO, VehicleTO.class);
 		CarModelTO carModelTO = null;
 		

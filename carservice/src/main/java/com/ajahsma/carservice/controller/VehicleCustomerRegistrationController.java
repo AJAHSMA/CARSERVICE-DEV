@@ -14,16 +14,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ajahsma.carservice.dto.VehicleCustomerRegistrationDTO;
+import com.ajahsma.carservice.enumeration.ErrorCodes;
+import com.ajahsma.carservice.exception.ValidationFailureException;
 import com.ajahsma.carservice.json.JsonResponse;
-import com.ajahsma.carservice.manager.DefaultManager;
+import com.ajahsma.carservice.json.JsonResponseMessage;
 import com.ajahsma.carservice.manager.VehicleCustomerRegistrationManager;
 import com.ajahsma.carservice.model.VehicleCustomerRegistrationTO;
+import com.ajahsma.carservice.utils.CarServiceUtils;
 import com.ajahsma.carservice.utils.JSONHelperUtil;
 
 /**
  * @author SHARAN A
  */
 
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @Controller
 @RequestMapping(value = "/carservice")
 public class VehicleCustomerRegistrationController extends AbstractController {
@@ -32,7 +37,7 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 	private VehicleCustomerRegistrationManager vehicleCustomerRegistrationManager;
 
 	@Override
-	protected DefaultManager getDefaultManager() {
+	protected VehicleCustomerRegistrationManager getDefaultManager() {
 		return this.vehicleCustomerRegistrationManager;
 	}
 
@@ -64,10 +69,28 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 
 	@RequestMapping(value = "/saveVehicleCustomerRegistration", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	JsonResponse save(@RequestBody VehicleCustomerRegistrationTO vehicleCustomerRegistration) {
-		getDefaultManager().saveDomain(vehicleCustomerRegistration);
+	JsonResponse save(@RequestBody VehicleCustomerRegistrationDTO vehicleCustomerRegistrationDto) {
+
+		String urlType = "carservice/saveVehicleCustomerRegistration";
+
 		Map<String, Object> items = new HashMap<>();
-		return JSONHelperUtil.getJsonResponse("1.0", "", items);
+		try {
+
+			VehicleCustomerRegistrationTO vehicleCustomerRegistrationTO = getDefaultManager().convertVehicleDTOToVehocleTO(vehicleCustomerRegistrationDto);
+
+			saveDomain(vehicleCustomerRegistrationTO);
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.SUCCESS);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.INFO_MESSAGE_CREATED_SUCCESSFULLY, "Registration"));
+
+		} catch (Exception e) {
+
+			items.put(JsonResponseMessage.STATUS, JsonResponseMessage.FAILURE);
+			items.put(JsonResponseMessage.MESSAGE, CarServiceUtils.createMessage(JsonResponseMessage.EXCEPTION_MESSAGE, e.getMessage()));
+
+		}
+
+		return JSONHelperUtil.getJsonResponse("1.0", urlType, items);
 	}
 
 	@RequestMapping(value = "/saveAllVehicleCustomerRegistrations", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,5 +110,26 @@ public class VehicleCustomerRegistrationController extends AbstractController {
 	@ResponseBody
 	public List<VehicleCustomerRegistrationTO> getAllVehicleCustomerRegistrations() {
 		return (List) getDefaultManager().getAllDomain(VehicleCustomerRegistrationTO.class);
+	}
+	
+	@Override
+	protected void validateDomain() throws ValidationFailureException {
+		boolean validateSuccess = true;
+
+		VehicleCustomerRegistrationTO vehicleCustomerRegistrationTO = (VehicleCustomerRegistrationTO) getDomain();
+		StringBuilder stringBuilder = new StringBuilder("");
+
+		if (vehicleCustomerRegistrationTO.getVehicle() == null) {
+			validateSuccess = false;
+			stringBuilder.append("Vehicle is mandatory").append(", ");
+		}
+		if (vehicleCustomerRegistrationTO.getCustomer() == null) {
+			validateSuccess = false;
+			stringBuilder.append("Customer is mandatory").append(", ");
+		}
+
+		if (!validateSuccess) {
+			throw new ValidationFailureException(ErrorCodes.VALIDATION_FAILURE.name(), stringBuilder.toString());
+		}
 	}
 }
