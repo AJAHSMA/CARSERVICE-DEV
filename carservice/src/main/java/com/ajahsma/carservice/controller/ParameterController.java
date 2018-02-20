@@ -55,7 +55,7 @@ public class ParameterController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateParameter", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse update(@RequestBody ParameterTO parameter) {
 		try {
@@ -94,7 +94,7 @@ public class ParameterController extends AbstractController {
 
 	}
 
-	@RequestMapping(value = "/saveAll", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/saveAllParameters", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	JsonResponse saveAll(@RequestBody List<ParameterTO> parameters) {
 		if (!CollectionUtils.isEmpty(parameters)) {
@@ -106,7 +106,7 @@ public class ParameterController extends AbstractController {
 		return JSONHelperUtil.getJsonResponse("1.0", "", items);
 	}
 
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "/getAllParameters")
 	@ResponseBody
 	public List<ParameterTO> getAllCountries() {
 		return (List) getDefaultManager().getAllDomain(ParameterTO.class);
